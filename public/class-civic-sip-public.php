@@ -55,25 +55,33 @@ class Civic_Sip_Public {
 	}
 
 	/**
+	 * Create Shortcode for Civic Auth button.
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_civic_auth_shortcode() {
+
+		$settings = get_option($this->plugin_name . '-settings');
+		wp_localize_script($this->plugin_name, 'settings', [
+			'appId' => !empty($settings['app_id']) ? $settings['app_id'] : ''
+		]);
+
+		wp_enqueue_script( $this->plugin_name );
+		wp_enqueue_style( $this->plugin_name );
+
+		// todo: translate
+		return '<button class="js-signup">Login</button>';
+	}
+
+	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Civic_Sip_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Civic_Sip_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/civic-sip-public.css', array(), $this->version, 'all' );
+		wp_register_style( 'civic-modal', 'https://hosted-sip.civic.com/css/civic-modal.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/civic-sip-public.css', array( 'civic-modal' ), $this->version, 'all' );
 
 	}
 
@@ -84,19 +92,8 @@ class Civic_Sip_Public {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Civic_Sip_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Civic_Sip_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/civic-sip-public.js', array( 'jquery' ), $this->version, false );
+		wp_register_script('civic-sip-hosted','https://hosted-sip.civic.com/js/civic.sip.min.js', array( 'jquery' ), $this->version, false );
+		wp_register_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/civic-sip-public.js', array( 'civic-sip-hosted' ), $this->version, false );
 
 	}
 
