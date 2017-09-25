@@ -100,4 +100,156 @@ class Civic_Sip_Admin {
 
 	}
 
+	/**
+	 * @since 1.0.0
+	 */
+	public function register_settings_page() {
+
+		add_submenu_page(
+			'options-general.php',
+			__( 'Civic QR Auth', 'civic-sip' ),
+			__( 'Civic QR Auth', 'civic-sip' ),
+			'manage_options',
+			'civic-qr-auth',
+			[ $this, 'display_settings_page' ]
+		);
+
+	}
+
+	/**
+	 * @since 1.0.0
+	 */
+	public function display_settings_page() {
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/civic-sip-admin-display.php';
+
+	}
+
+	/**
+	 * @since 1.0.0
+	 */
+	public function register_settings() {
+
+		register_setting(
+			$this->plugin_name . '-settings',
+			$this->plugin_name . '-settings'
+		);
+
+
+		add_settings_section(
+			$this->plugin_name . '-settings-section',
+			__( 'Settings', 'civic-sip' ),
+			[ $this, 'add_settings_section' ],
+			$this->plugin_name . '-settings'
+		);
+
+		add_settings_field(
+			'app_id',
+			__( 'App ID', 'civic-sip' ),
+			[ $this, 'add_settings_field_input_text' ],
+			$this->plugin_name . '-settings',
+			$this->plugin_name . '-settings-section',
+			[
+				'value_for' => 'app_id',
+			]
+		);
+
+		add_settings_field(
+			'pubkey',
+			__( 'Public Signing Key ', 'civic-sip' ),
+			[ $this, 'add_settings_field_input_text' ],
+			$this->plugin_name . '-settings',
+			$this->plugin_name . '-settings-section',
+			[
+				'value_for' => 'pubkey',
+			]
+		);
+
+		add_settings_field(
+			'privkey',
+			__( 'Private Signing Key', 'civic-sip' ),
+			[ $this, 'add_settings_field_input_text' ],
+			$this->plugin_name . '-settings',
+			$this->plugin_name . '-settings-section',
+			[
+				'value_for' => 'privkey',
+			]
+		);
+
+		add_settings_field(
+			'secret',
+			__( 'Secret', 'civic-sip' ),
+			[ $this, 'add_settings_field_input_text' ],
+			$this->plugin_name . '-settings',
+			$this->plugin_name . '-settings-section',
+			[
+				'value_for' => 'secret',
+			]
+		);
+		add_settings_field(
+			'wp_user_auth_enabled',
+			__( 'Enable WP User Authentication', 'civic-sip' ),
+			[ $this, 'add_settings_field_single_checkbox' ],
+			$this->plugin_name . '-settings',
+			$this->plugin_name . '-settings-section',
+			[
+				'value_for' => 'wp_user_auth_enabled',
+			]
+		);
+
+	}
+
+	/**
+	 * @since 1.0.0
+	 */
+	public function add_settings_field_input_text( $args ) {
+		$field_id = $args['value_for'];
+		$options  = get_option( $this->plugin_name . '-settings' );
+		$option   = isset( $options[ $field_id ] ) ? $options[ $field_id ] : '';
+		?>
+        <input type="text" name="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>"
+               id="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>"
+               value="<?php echo esc_attr( $option ); ?>" class="regular-text"/>
+		<?php
+	}
+
+	/**
+	 * @since 1.0.0
+	 */
+	public function add_settings_field_single_checkbox( $args ) {
+
+		$field_id = $args['value_for'];
+		$options = get_option( $this->plugin_name . '-settings' );
+		$option = isset($options[$field_id]) ? $options[$field_id] : 1;
+
+		?>
+
+        <label for="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>">
+            <input type="checkbox"
+                   name="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>"
+                   id="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>"
+                   <?php checked( $option, true, 1 ); ?>
+                   value="1" />
+        </label>
+
+		<?php
+
+	}
+
+	/**
+	 * @since 1.0.0
+	 */
+	public function add_settings_section() {
+		?>
+        <p class="description">
+            <?php echo esc_html( __( 'These values are obtained through our Partner Developer Portal once you have registered as a partner.', 'civic-sip' ) ); ?>
+        </p>
+        <p class="description">
+			<?php echo esc_html( __( 'Please follow this link to register:', 'civic-sip' ) ); ?>
+            <a href="https://www.civic.com/secure-identity-platform"
+               target="_blank"><?php echo esc_html( __( 'Civic SIP', 'civic-sip' ) ); ?></a>
+        </p>
+		<?php
+	}
+
 }

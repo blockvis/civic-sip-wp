@@ -31,6 +31,8 @@ class Civic_Sip_Deactivator {
 	 */
 	public static function deactivate() {
 
+		// Delete option value from database
+		delete_option('civic-sip-settings');
 	}
 
 }
