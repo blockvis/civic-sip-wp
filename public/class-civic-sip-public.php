@@ -60,8 +60,11 @@ class Civic_Sip_Public {
 		// Check the nonce first.
 		check_ajax_referer( 'civic', 'nonce');
 
-		$token = trim($_POST['token']);
+		$settings = get_option($this->plugin_name . '-settings');
+		$login = new Civic_Sip_Client($settings);
+		$user_data = $login->exchangeToken(trim($_POST['token']));
 
+		wp_send_json($user_data);
 		wp_send_json(['logged_in' => true]);
 	}
 
