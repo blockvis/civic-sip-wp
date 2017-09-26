@@ -51,7 +51,18 @@ class Civic_Sip_Public {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+	}
 
+	/**
+	 * @since   1.0.0
+	 */
+	public function civic_auth() {
+		// Check the nonce first.
+		check_ajax_referer( 'civic', 'nonce');
+
+		$token = trim($_POST['token']);
+
+		wp_send_json(['logged_in' => true]);
 	}
 
 	/**
@@ -62,10 +73,21 @@ class Civic_Sip_Public {
 	public function register_civic_auth_shortcode() {
 
 		$settings = get_option($this->plugin_name . '-settings');
-		wp_localize_script($this->plugin_name, 'settings', [
-			'appId' => !empty($settings['app_id']) ? $settings['app_id'] : ''
+
+		// Civic App details.
+		wp_localize_script($this->plugin_name, 'civic_app', [
+			'id' => !empty($settings['app_id']) ? $settings['app_id'] : '',
 		]);
 
+		// Civic auth AJAX endpoint params.
+		wp_localize_script($this->plugin_name, 'civic_ajax', [
+			'action' => 'civic_auth',
+			'url' => admin_url( 'admin-ajax.php' ),
+			'redirect_url' => home_url(),
+			'nonce' => wp_create_nonce('civic'),
+		]);
+
+		// Enqueue required assets only when shortcode is used.
 		wp_enqueue_script( $this->plugin_name );
 		wp_enqueue_style( $this->plugin_name );
 

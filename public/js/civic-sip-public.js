@@ -1,7 +1,7 @@
 (function( $ ) {
 	'use strict';
 
-    var civicSip = new civic.sip({ appId: settings.appId });
+    var civicSip = new civic.sip({ appId: civic_app.id });
     // Step 3: Start scope request.
     $('button.js-signup').click(function(event) {
         civicSip.signup({ style: 'popup', scopeRequest: civicSip.ScopeRequests.BASIC_SIGNUP });
@@ -45,7 +45,24 @@
     });
 
     function sendAuthCode(jwtToken) {
-        console.log('Authorization Code: ', jwtToken);
+        console.log('Sending Authorization Code: ', jwtToken);
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: civic_ajax.url,
+            data: {
+                'action': civic_ajax.action,
+                'nonce': civic_ajax.nonce,
+                'token': jwtToken
+            },
+            success: function (data) {
+                console.log("Auth Response", data);
+                if (data.logged_in == true) {
+                    document.location.href = civic_ajax.redirect_url;
+                }
+            }
+        });
     }
 
 })( jQuery );

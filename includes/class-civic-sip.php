@@ -174,9 +174,15 @@ class Civic_Sip {
 
 		$plugin_public = new Civic_Sip_Public( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		if (is_admin()) {
+			// Enable the user with no privileges to run civic_auth() in AJAX.
+			$this->loader->add_action( 'wp_ajax_nopriv_civic_auth', $plugin_public, 'civic_auth' );
+		} else {
+			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		}
 
+		// Register 'civic-auth' shortcode.
 		$this->loader->add_shortcode( 'civic-auth', $plugin_public, 'register_civic_auth_shortcode' );
 	}
 
