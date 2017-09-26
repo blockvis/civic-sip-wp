@@ -1,0 +1,20 @@
+{
+    "name": "blockvis/civic-sip-wp",
+    "description": "Civic SIP WordPress plugin",
+    "type": "library",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Blockvis",
+            "email": "blockvis@blockvis.com"
+        }
+    ],
+    "config": {
+        "vendor-dir": "includes/vendor"
+    },
+    "require": {
+        "ramsey/uuid": "^3.7",
+        "mdanter/ecc": "^0.4.2",
+        "lcobucci/jwt": "^3.2"
+    }
+}
