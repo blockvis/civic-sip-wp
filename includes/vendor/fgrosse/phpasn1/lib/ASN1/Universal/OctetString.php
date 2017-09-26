@@ -26,8 +26,6 @@ class OctetString extends Object implements Parsable
             $value = preg_replace('/\s|0x/', '', $value);
         } elseif (is_numeric($value)) {
             $value = dechex($value);
-        } elseif ($value === null) {
-            return;
         } else {
             throw new Exception('OctetString: unrecognized input type!');
         }
@@ -78,7 +76,7 @@ class OctetString extends Object implements Parsable
     public static function fromBinary(&$binaryData, &$offsetIndex = 0)
     {
         self::parseIdentifier($binaryData[$offsetIndex], Identifier::OCTETSTRING, $offsetIndex++);
-        $contentLength = self::parseContentLength($binaryData, $offsetIndex);
+        $contentLength = self::parseContentLength($binaryData, $offsetIndex, 1);
 
         $value = substr($binaryData, $offsetIndex, $contentLength);
         $offsetIndex += $contentLength;

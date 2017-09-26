@@ -10,6 +10,9 @@
  * @subpackage Civic_Sip/public
  */
 
+use Blockvis\Civic\Sip\AppConfig;
+use Blockvis\Civic\Sip\Client;
+
 /**
  * The public-facing functionality of the plugin.
  *
@@ -61,8 +64,8 @@ class Civic_Sip_Public {
 		check_ajax_referer( 'civic', 'nonce');
 
 		$settings = get_option($this->plugin_name . '-settings');
-		$login = new Civic_Sip_Client($settings);
-		$user_data = $login->exchangeToken(trim($_POST['token']));
+		$client = new Client( new AppConfig( $settings['app_id'], $settings['secret'], $settings['privkey']), new \GuzzleHttp\Client());
+		$user_data = $client->exchangeToken( trim($_POST['token']));
 
 		wp_send_json($user_data);
 		wp_send_json(['logged_in' => true]);

@@ -83,10 +83,6 @@ class OctetStringTest extends ASN1TestCase
         $expectedContent .= chr(0xA0);
         $expectedContent .= chr(0x34);
         $this->assertEquals($expectedType.$expectedLength.$expectedContent, $object->getBinary());
-
-        $object = new OctetString(null);
-        $expectedLength = chr(0x00);
-        $this->assertEquals($expectedType.$expectedLength, $object->getBinary());
     }
 
     public function testGetBinaryForLargeOctetStrings()
@@ -141,12 +137,5 @@ class OctetStringTest extends ASN1TestCase
         $parsedObject = OctetString::fromBinary($binaryData, $offset);
         $this->assertEquals($originalObject2, $parsedObject);
         $this->assertEquals(8, $offset);
-    }
-
-    public function testEmptyValue()
-    {
-        $object = new OctetString(null);
-        $this->assertEmpty($object->getContent());
-        $this->assertEquals(2, $object->getObjectLength());
     }
 }

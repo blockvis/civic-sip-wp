@@ -2,6 +2,7 @@
 
 namespace Mdanter\Ecc\Tests\Curves;
 
+use Mdanter\Ecc\Crypto\Signature\Signature;
 use Mdanter\Ecc\Random\RandomGeneratorFactory;
 use Mdanter\Ecc\Serializer\Point\CompressedPointSerializer;
 use Mdanter\Ecc\Serializer\Point\UncompressedPointSerializer;
@@ -13,6 +14,15 @@ use Mdanter\Ecc\Crypto\Signature\Signer;
 
 class SpecBasedCurveTest extends AbstractTestCase
 {
+    const CAUSE_MSG = "message"; // 1
+    const CAUSE_R = "r"; // 2
+    const CAUSE_S = "s"; // 3
+    const CAUSE_Q = "publicKey"; // 4
+    const DEFAULT_COVERAGE_SHARDS = 5;
+    /**
+     * @var array
+     */
+    private $fileCache = [];
 
     /**
      * @return array
@@ -21,6 +31,7 @@ class SpecBasedCurveTest extends AbstractTestCase
     {
         return [
             __DIR__ . '/../../specs/secp-112r1.yml',
+            __DIR__ . '/../../specs/secp-192k1.yml',
             __DIR__ . '/../../specs/secp-256k1.yml',
             __DIR__ . '/../../specs/secp-256r1.yml',
             __DIR__ . '/../../specs/secp-384r1.yml',
@@ -33,25 +44,97 @@ class SpecBasedCurveTest extends AbstractTestCase
     }
 
     /**
+     * @param Yaml $yaml
+     * @param $fileName
+     * @return mixed
+     */
+    public function readFile(Yaml $yaml, $fileName)
+    {
+        if (!isset($this->fileCache[$fileName])) {
+            if (!file_exists($fileName)) {
+                throw new \PHPUnit_Runner_Exception("Test fixture file {$fileName} does not exist");
+            }
+
+            $this->fileCache[$fileName] = $yaml->parse(file_get_contents($fileName));
+        }
+        return $this->fileCache[$fileName];
+    }
+
+    /**
+     * @param string $fixtureName
+     * @return array
+     */
+    public function readTestFixture($fixtureName)
+    {
+        static $useShard;
+        $yaml = new Yaml();
+        $files = $this->getFiles();
+
+        $shards = 1;
+        if (getenv('COVERAGE')) {
+            $shards = getenv('COVERAGE_SHARDS');
+            if (null === $shards || (int) $shards === 0) {
+                $shards = self::DEFAULT_COVERAGE_SHARDS;
+            }
+
+            if (null === $useShard) {
+                $useShard = mt_rand(0, $shards - 1);
+                fwrite(STDERR, <<<TEXT
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NOTICE:
+Sharding enabled for coverage run - testing shard {$useShard} of {$shards}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+TEXT
+                );
+            }
+        }
+
+        $results = [];
+        foreach ($files as $fileName) {
+            $data = $this->readFile($yaml, $fileName);
+            if (!array_key_exists($fixtureName, $data)) {
+                continue;
+            }
+
+            $filesWorth = [
+                'name' => $data['name'],
+                'fixtures' => []
+            ];
+
+            foreach ($data[$fixtureName] as $i => $fixture) {
+                if ($i % $shards != 0) {
+                    continue;
+                }
+
+                $filesWorth['fixtures'][] = $fixture;
+            }
+
+            $results[] = $filesWorth;
+        }
+
+        return $results;
+    }
+
+    /**
      * @return array
      */
     public function getKeypairsTestSet()
     {
-        $yaml = new Yaml();
-        $files = $this->getFiles();
+        $files = $this->readTestFixture('keypairs');
         $datasets = [];
 
         foreach ($files as $file) {
-            $data = $yaml->parse(file_get_contents($file));
-            $generator = CurveFactory::getGeneratorByName($data['name']);
-
-            foreach ($data['keypairs'] as $testKeyPair) {
+            $generator = CurveFactory::getGeneratorByName($file['name']);
+            foreach ($file['fixtures'] as $fixture) {
                 $datasets[] = [
-                    $data['name'],
+                    $file['name'],
                     $generator,
-                    $testKeyPair['k'],
-                    $testKeyPair['x'],
-                    $testKeyPair['y']
+                    $fixture['k'],
+                    $fixture['x'],
+                    $fixture['y']
                 ];
             }
         }
@@ -87,25 +170,94 @@ class SpecBasedCurveTest extends AbstractTestCase
         $this->assertTrue($parsed->equals($publicKey->getPoint()));
     }
 
+
+    /**
+     * @return array
+     */
+    public function getPublicKeyVerifyTestSet()
+    {
+        $files = $this->readTestFixture('pubkey');
+        $datasets = [];
+
+        foreach ($files as $file) {
+            $generator = CurveFactory::getGeneratorByName($file['name']);
+            foreach ($file['fixtures'] as $fixture) {
+                $datasets[] = [
+                    $file['name'],
+                    $generator,
+                    $fixture['x'],
+                    $fixture['y'],
+                    $fixture['result'],
+                ];
+            }
+        }
+
+        return $datasets;
+    }
+
+    /**
+     * @dataProvider getPublicKeyVerifyTestSet
+     * @param string $name
+     * @param GeneratorPoint $generator
+     * @param string $xHex
+     * @param string $yHex
+     * @param bool $expectedResult
+     */
+    public function testPublicKeyVerify($name, GeneratorPoint $generator, $xHex, $yHex, $expectedResult)
+    {
+        $curve = $generator->getCurve();
+
+        $x = gmp_init($xHex, 16);
+        $y = gmp_init($yHex, 16);
+
+        // The true test
+        try {
+            $generator->getPublicKeyFrom($x, $y);
+            $fCurveHasPoint = true;
+        } catch (\Exception $e) {
+            $fCurveHasPoint = false;
+        }
+
+        $this->assertEquals($expectedResult, $fCurveHasPoint);
+
+        if ($expectedResult) {
+            // CurveFp.contains ...
+            // can only check the point exists on the curve after
+            // the fields have been checked against the subgroup
+            // order. If our fixture is valid, this method MUST
+            // return true.
+            $fCurveContains = $curve->contains($x, $y);
+
+            // Curve.getPoint must also succeed if the fixture is
+            // valid when the order isn't provided.
+            try {
+                $curve->getPoint($x, $y);
+                $fCurveGetPoint = true;
+            } catch (\Exception $e) {
+                $fCurveGetPoint = false;
+            }
+
+            $this->assertEquals(true, $fCurveContains);
+            $this->assertEquals(true, $fCurveGetPoint);
+        }
+    }
+
     /**
      * @return array
      */
     public function getDiffieHellmanTestSet()
     {
-        $yaml = new Yaml();
-        $files = $this->getFiles();
+        $files = $this->readTestFixture('diffie');
         $datasets = [];
 
         foreach ($files as $file) {
-            $data = $yaml->parse(file_get_contents($file));
-            $generator = CurveFactory::getGeneratorByName($data['name']);
-
-            foreach ($data['diffie'] as $testKeyPair) {
+            $generator = CurveFactory::getGeneratorByName($file['name']);
+            foreach ($file['fixtures'] as $fixture) {
                 $datasets[] = [
                     $generator,
-                    $testKeyPair['alice'],
-                    $testKeyPair['bob'],
-                    $testKeyPair['shared']
+                    $fixture['alice'],
+                    $fixture['bob'],
+                    $fixture['shared']
                 ];
             }
         }
@@ -138,28 +290,20 @@ class SpecBasedCurveTest extends AbstractTestCase
      */
     public function getHmacTestSet()
     {
-        $yaml = new Yaml();
-        $files = $this->getFiles();
+        $files = $this->readTestFixture('hmac');
         $datasets = [];
 
         foreach ($files as $file) {
-            $data = $yaml->parse(file_get_contents($file));
-
-            if (! isset($data['hmac'])) {
-                continue;
-            }
-
-            $generator = CurveFactory::getGeneratorByName($data['name']);
-
-            foreach ($data['hmac'] as $sig) {
+            $generator = CurveFactory::getGeneratorByName($file['name']);
+            foreach ($file['fixtures'] as $fixture) {
                 $datasets[] = [
                     $generator,
-                    $sig['key'],
-                    $sig['algo'],
-                    $sig['message'],
-                    strtolower($sig['k']),
-                    strtolower($sig['r']),
-                    strtolower($sig['s'])
+                    $fixture['key'],
+                    $fixture['algo'],
+                    $fixture['message'],
+                    strtolower($fixture['k']),
+                    strtolower($fixture['r']),
+                    strtolower($fixture['s'])
                 ];
             }
         }
@@ -198,5 +342,168 @@ class SpecBasedCurveTest extends AbstractTestCase
         $sS = $math->hexDec($eS);
         $this->assertSame($sR, $math->toString($sig->getR()));
         $this->assertSame($sS, $math->toString($sig->getS()));
+    }
+
+    /**
+     * @return array
+     */
+    public function getEcdsaSignFixtures()
+    {
+        $files = $this->readTestFixture('ecdsa');
+        $datasets = [];
+
+        foreach ($files as $file) {
+            $generator = CurveFactory::getGeneratorByName($file['name']);
+            foreach ($file['fixtures'] as $testKeyPair) {
+                $algo = null;
+                $msg = null; // full message, not the digest
+                $hashRaw = null;
+                if (!array_key_exists('msg', $testKeyPair)) {
+                    if (!array_key_exists('msg_full', $testKeyPair)) {
+                        throw new \RuntimeException("Need full message if not given raw hash value");
+                    }
+                    if (!array_key_exists('algo', $testKeyPair)) {
+                        throw new \RuntimeException("Need algorithm in order to hash message");
+                    }
+                    $algo = $testKeyPair['algo'];
+                    $msg = $testKeyPair['msg_full'];
+                } else {
+                    $hashRaw = $testKeyPair['msg'];
+                }
+
+                $datasets[] = [
+                    $generator,
+                    $testKeyPair['private'],
+                    (string) $testKeyPair['k'],
+                    (string) $testKeyPair['r'],
+                    (string) $testKeyPair['s'],
+                    $hashRaw,
+                    $msg,
+                    $algo,
+                ];
+            }
+        }
+
+        return $datasets;
+    }
+
+    /**
+     * @dataProvider getEcdsaSignFixtures
+     * @param GeneratorPoint $G
+     * @param $privKeyHex
+     * @param $hashHex
+     * @param $kHex
+     * @param $eR
+     * @param $eS
+     * @param string|null $algo
+     */
+    public function testEcdsaSignatureGeneration(GeneratorPoint $G, $privKeyHex, $kHex, $eR, $eS, $hashHex = null, $msg = null, $algo = null)
+    {
+        $math = $G->getAdapter();
+        $signer = new Signer($math);
+        $privateKey = $G->getPrivateKeyFrom(gmp_init($privKeyHex, 10));
+
+        if ($hashHex != null) {
+            $hash = gmp_init($hashHex, 16);
+        } else {
+            $hash = $signer->hashData($G, $algo, hex2bin($msg));
+        }
+
+        $k = gmp_init($kHex, 16);
+        $sig = $signer->sign($privateKey, $hash, $k);
+
+        // R and S should be correct
+        $sR = $math->hexDec($eR);
+        $sS = $math->hexDec($eS);
+        $this->assertSame($sR, $math->toString($sig->getR()));
+        $this->assertSame($sS, $math->toString($sig->getS()));
+
+        // Should verify
+        $this->assertTrue($signer->verify($privateKey->getPublicKey(), $sig, $hash));
+    }
+
+    /**
+     * @return array
+     */
+    public function getEcdsaVerifyFixtures()
+    {
+        $files = $this->readTestFixture('ecdsa-verify');
+        $datasets = [];
+
+        foreach ($files as $file) {
+            $generator = CurveFactory::getGeneratorByName($file['name']);
+            foreach ($file['fixtures'] as $testKeyPair) {
+                $algo = null;
+                $msg = null; // full message, not the digest
+                $hashRaw = null;
+                $cause = null;
+                if (!array_key_exists('msg', $testKeyPair)) {
+                    if (!array_key_exists('msg_full', $testKeyPair)) {
+                        throw new \RuntimeException("Need full message if not given raw hash value");
+                    }
+                    if (!array_key_exists('algo', $testKeyPair)) {
+                        throw new \RuntimeException("Need algorithm in order to hash message");
+                    }
+                    $algo = $testKeyPair['algo'];
+                    $msg = $testKeyPair['msg_full'];
+                } else {
+                    $hashRaw = $testKeyPair['msg'];
+                }
+
+                if (!$testKeyPair['result'] && array_key_exists("cause", $testKeyPair)) {
+                    $cause = $testKeyPair["cause"];
+                }
+
+                $datasets[] = [
+                    $generator,
+                    (string) $testKeyPair['r'],
+                    (string) $testKeyPair['s'],
+                    (string) $testKeyPair['x'],
+                    (string) $testKeyPair['y'],
+                    $testKeyPair['result'],
+                    $cause,
+                    $hashRaw,
+                    $msg,
+                    $algo,
+                ];
+            }
+        }
+
+        return $datasets;
+    }
+
+    /**
+     * @dataProvider getEcdsaVerifyFixtures
+     * @param GeneratorPoint $G
+     * @param $hashHex
+     * @param $eR
+     * @param $eS
+     * @param $x
+     * @param $y
+     * @param bool $result
+     * @param string $cause
+     * @param string|null $algo
+     */
+    public function testEcdsaSignatureVerification(GeneratorPoint $G, $eR, $eS, $x, $y, $result, $cause = null, $hashHex = null, $msg = null, $algo = null)
+    {
+        $math = $G->getAdapter();
+        $signer = new Signer($math);
+        try {
+            $publicKey = $G->getPublicKeyFrom(gmp_init($x, 16), gmp_init($y, 16));
+        } catch (\Exception $e) {
+            throw new \RuntimeException("Unexpected exception parsing public key");
+        }
+
+        if ($hashHex != null) {
+            $hash = gmp_init($hashHex, 16);
+        } else {
+            $hash = $signer->hashData($G, $algo, hex2bin($msg));
+        }
+
+        $sig = new Signature(gmp_init($eR, 16), gmp_init($eS, 16));
+
+        // Should verify
+        $verify = $signer->verify($publicKey, $sig, $hash);
+        $this->assertEquals($result, $verify);
     }
 }

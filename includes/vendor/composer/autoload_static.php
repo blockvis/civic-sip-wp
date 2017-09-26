@@ -4,10 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit69a0255f524f50f82670f6c13a2f4801
+class ComposerStaticIniteba4ef65148265e2781b911f042ba6de
 {
     public static $files = array (
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -15,17 +18,33 @@ class ComposerStaticInit69a0255f524f50f82670f6c13a2f4801
         array (
             'Ramsey\\Uuid\\' => 12,
         ),
+        'P' => 
+        array (
+            'Psr\\Http\\Message\\' => 17,
+        ),
         'M' => 
         array (
             'Mdanter\\Ecc\\' => 12,
         ),
         'L' => 
         array (
+            'Lcobucci\\Jose\\Parsing\\' => 22,
             'Lcobucci\\JWT\\' => 13,
+            'Lcobucci\\Clock\\' => 15,
+        ),
+        'G' => 
+        array (
+            'GuzzleHttp\\Psr7\\' => 16,
+            'GuzzleHttp\\Promise\\' => 19,
+            'GuzzleHttp\\' => 11,
         ),
         'F' => 
         array (
             'FG\\' => 3,
+        ),
+        'B' => 
+        array (
+            'Blockvis\\Civic\\Sip\\' => 19,
         ),
     );
 
@@ -34,25 +53,53 @@ class ComposerStaticInit69a0255f524f50f82670f6c13a2f4801
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
         ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
         'Mdanter\\Ecc\\' => 
         array (
             0 => __DIR__ . '/..' . '/mdanter/ecc/src',
+        ),
+        'Lcobucci\\Jose\\Parsing\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lcobucci/jose-parsing/src',
         ),
         'Lcobucci\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
         ),
+        'Lcobucci\\Clock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lcobucci/clock/src',
+        ),
+        'GuzzleHttp\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
+        'GuzzleHttp\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
+        ),
+        'GuzzleHttp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
         'FG\\' => 
         array (
             0 => __DIR__ . '/..' . '/fgrosse/phpasn1/lib',
+        ),
+        'Blockvis\\Civic\\Sip\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/blockvis/civic-sip-php/src',
         ),
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit69a0255f524f50f82670f6c13a2f4801::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit69a0255f524f50f82670f6c13a2f4801::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticIniteba4ef65148265e2781b911f042ba6de::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticIniteba4ef65148265e2781b911f042ba6de::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

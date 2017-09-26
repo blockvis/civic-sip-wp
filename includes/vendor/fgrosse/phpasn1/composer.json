@@ -16,10 +16,8 @@
             "homepage": "https://github.com/FGrosse/PHPASN1/contributors"
         }
     ],
-    "keywords": [ "x690", "x.690", "x.509", "x509", "asn1", "asn.1", "ber", "der", "binary", "encoding", "decoding" ],
-
     "require": {
-        "php": ">=5.6.0",
+        "php": ">=5.5.0",
         "ext-gmp": "*"
     },
     "require-dev": {
@@ -41,7 +39,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.5.x-dev"
+            "dev-master": "1.5.x-dev",
+            "dev-compat/php5-5": "1.5.x-dev"
         }
     }
 }

@@ -37,10 +37,14 @@ class ExplicitlyTaggedObject extends Object
 
     /**
      * @param int $tag
-     * @param \FG\ASN1\Object $objects,...
+     * @param \FG\ASN1\Object[] $objects
      */
-    public function __construct($tag, /* HH_FIXME[4858]: variadic + strict */ ...$objects)
+    public function __construct($tag, $objects)
     {
+        if (!is_array($objects)) {
+            $objects = array($objects);
+        }
+
         $this->tag = $tag;
         $this->decoratedObjects = $objects;
     }
@@ -124,7 +128,7 @@ class ExplicitlyTaggedObject extends Object
             throw new ParserException("Context-Specific explicitly tagged object [$tag] starting at offset $offsetIndexOfDecoratedObject specifies a length of $totalContentLength octets but $remainingContentLength remain after parsing the content", $offsetIndexOfDecoratedObject);
         }
 
-        $parsedObject = new self($tag, ...$decoratedObjects);
+        $parsedObject = new self($tag, $decoratedObjects);
         $parsedObject->setContentLength($totalContentLength);
         return $parsedObject;
     }

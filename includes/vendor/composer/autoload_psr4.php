@@ -7,7 +7,14 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
+    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Mdanter\\Ecc\\' => array($vendorDir . '/mdanter/ecc/src'),
+    'Lcobucci\\Jose\\Parsing\\' => array($vendorDir . '/lcobucci/jose-parsing/src'),
     'Lcobucci\\JWT\\' => array($vendorDir . '/lcobucci/jwt/src'),
+    'Lcobucci\\Clock\\' => array($vendorDir . '/lcobucci/clock/src'),
+    'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
+    'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
+    'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'FG\\' => array($vendorDir . '/fgrosse/phpasn1/lib'),
+    'Blockvis\\Civic\\Sip\\' => array($vendorDir . '/blockvis/civic-sip-php/src'),
 );

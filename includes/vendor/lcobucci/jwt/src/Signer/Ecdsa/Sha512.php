@@ -5,6 +5,8 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Signer\Ecdsa;
 
 use Lcobucci\JWT\Signer\Ecdsa;
@@ -15,12 +17,12 @@ use Lcobucci\JWT\Signer\Ecdsa;
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 2.1.0
  */
-class Sha512 extends Ecdsa
+final class Sha512 extends Ecdsa
 {
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithmId()
+    public function getAlgorithmId(): string
     {
         return 'ES512';
     }
@@ -28,16 +30,8 @@ class Sha512 extends Ecdsa
     /**
      * {@inheritdoc}
      */
-    public function getAlgorithm()
+    public function getAlgorithm(): string
     {
         return 'sha512';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSignatureLength()
-    {
-        return 132;
     }
 }

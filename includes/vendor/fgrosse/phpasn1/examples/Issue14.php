@@ -86,7 +86,7 @@ try {
     $certExtensions = $certInfoFields[7];
 
     // check if this is really the certificate extensions sequence
-    /* @var \FG\ASN1\Object $certExtensions */
+    /* @var Object $certExtensions */
     $certExtensionsType = $certExtensions->getType();
     assert(Identifier::isContextSpecificClass($certExtensionsType));
     assert(Identifier::getTagNumber($certExtensions->getType()) == 3);
@@ -96,7 +96,7 @@ try {
     assert($certExtensions->getType() == Identifier::SEQUENCE);
 
     // now check all extensions and search for the SAN
-    /** @var \FG\ASN1\Object $extensionSequence */
+    /** @var Object $extensionSequence */
     foreach ($certExtensions as $extensionSequence) {
         assert($extensionSequence->getType() == Identifier::SEQUENCE);
         assert($extensionSequence->getNumberofChildren() >= 2);

@@ -5,11 +5,15 @@
  * @license http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  */
 
+declare(strict_types=1);
+
 namespace Lcobucci\JWT\Signer\Ecdsa;
 
 use InvalidArgumentException;
 use Lcobucci\JWT\Signer\Key;
-use Mdanter\Ecc\Math\MathAdapterInterface;
+use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
+use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
+use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Serializer\PrivateKey\DerPrivateKeySerializer;
 use Mdanter\Ecc\Serializer\PrivateKey\PemPrivateKeySerializer;
 use Mdanter\Ecc\Serializer\PrivateKey\PrivateKeySerializerInterface;
@@ -18,8 +22,6 @@ use Mdanter\Ecc\Serializer\PublicKey\PemPublicKeySerializer;
 use Mdanter\Ecc\Serializer\PublicKey\PublicKeySerializerInterface;
 
 /**
- * Base class for ECDSA signers
- *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
  * @since 3.0.4
  */
@@ -35,18 +37,26 @@ class KeyParser
      */
     private $publicKeySerializer;
 
-    /**
-     * @param MathAdapterInterface $adapter
-     * @param PrivateKeySerializerInterface $privateKeySerializer
-     * @param PublicKeySerializerInterface $publicKeySerializer
-     */
+    public static function create(GmpMathInterface $adapter): KeyParser
+    {
+        $publicKeySerializer = new PemPublicKeySerializer(
+            new DerPublicKeySerializer($adapter)
+        );
+
+        return new self(
+            new PemPrivateKeySerializer(
+                new DerPrivateKeySerializer($adapter, $publicKeySerializer)
+            ),
+            $publicKeySerializer
+        );
+    }
+
     public function __construct(
-        MathAdapterInterface $adapter,
-        PrivateKeySerializerInterface $privateKeySerializer = null,
-        PublicKeySerializerInterface $publicKeySerializer = null
+        PrivateKeySerializerInterface $privateKeySerializer,
+        PublicKeySerializerInterface $publicKeySerializer
     ) {
-        $this->privateKeySerializer = $privateKeySerializer ?: new PemPrivateKeySerializer(new DerPrivateKeySerializer($adapter));
-        $this->publicKeySerializer = $publicKeySerializer ?: new PemPublicKeySerializer(new DerPublicKeySerializer($adapter));
+        $this->publicKeySerializer = $publicKeySerializer;
+        $this->privateKeySerializer = $privateKeySerializer;
     }
 
     /**
@@ -54,9 +64,9 @@ class KeyParser
      *
      * @param Key $key
      *
-     * @return \Mdanter\Ecc\Crypto\Key\PublicKeyInterface
+     * @return PublicKeyInterface
      */
-    public function getPublicKey(Key $key)
+    public function getPublicKey(Key $key): PublicKeyInterface
     {
         return $this->publicKeySerializer->parse($this->getKeyContent($key, 'PUBLIC KEY'));
     }
@@ -66,9 +76,9 @@ class KeyParser
      *
      * @param Key $key
      *
-     * @return \Mdanter\Ecc\Crypto\Key\PrivateKeyInterface
+     * @return PrivateKeyInterface
      */
-    public function getPrivateKey(Key $key)
+    public function getPrivateKey(Key $key): PrivateKeyInterface
     {
         return $this->privateKeySerializer->parse($this->getKeyContent($key, 'EC PRIVATE KEY'));
     }
@@ -83,7 +93,7 @@ class KeyParser
      *
      * @throws InvalidArgumentException When given key is not a ECDSA key
      */
-    private function getKeyContent(Key $key, $header)
+    private function getKeyContent(Key $key, string $header): string
     {
         $match = null;
 
@@ -93,7 +103,7 @@ class KeyParser
             $match
         );
 
-        if (isset($match[1])) {
+        if (count($match) === 2) {
             return $match[1];
         }
 
