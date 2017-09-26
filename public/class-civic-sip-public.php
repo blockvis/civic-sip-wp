@@ -67,7 +67,19 @@ class Civic_Sip_Public {
 		$client = new Client( new AppConfig( $settings['app_id'], $settings['secret'], $settings['privkey']), new \GuzzleHttp\Client());
 		$user_data = $client->exchangeToken( trim($_POST['token']));
 
-		wp_send_json($user_data);
+		/** @var \Blockvis\Civic\Sip\UserDataItem $emailItem */
+		$emailItem = array_filter($user_data->items(), function (\Blockvis\Civic\Sip\UserDataItem $item) {
+			return $item->label() == 'contact.personal.email';
+		})[0];
+
+		/** @var WP_User $user */
+		$user = get_user_by('email', $emailItem->value());
+		if( $user ) {
+			wp_set_current_user( $user->ID, $user->user_login );
+			wp_set_auth_cookie( $user->ID );
+			do_action( 'wp_login', $user->user_login );
+		}
+
 		wp_send_json(['logged_in' => true]);
 	}
 
