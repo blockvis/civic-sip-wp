@@ -20,7 +20,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4.0"
         },
-        "time": "2017-05-20 23:14:18",
+        "time": "2017-05-20T23:14:18+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -70,7 +70,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-08-06 14:39:51",
+        "time": "2016-08-06T14:39:51+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -129,7 +129,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.0"
         },
-        "time": "2017-07-17 09:11:21",
+        "time": "2017-07-17T09:11:21+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -199,7 +199,7 @@
         "suggest": {
             "psr/log": "Required for using the Log middleware"
         },
-        "time": "2017-06-22 18:50:49",
+        "time": "2017-06-22T18:50:49+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -264,7 +264,7 @@
         "suggest": {
             "php-curl": "For loading OID information from the web if they have not bee defined statically"
         },
-        "time": "2015-09-30 18:31:02",
+        "time": "2015-09-30T18:31:02+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -321,7 +321,7 @@
         "suggest": {
             "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
         },
-        "time": "2017-03-13 16:27:32",
+        "time": "2017-03-13T16:27:32+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -373,7 +373,7 @@
             "squizlabs/php_codesniffer": "~2",
             "symfony/yaml": "~2.6|~3.0"
         },
-        "time": "2017-09-22 15:12:06",
+        "time": "2017-09-22T15:12:06+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -438,7 +438,7 @@
             "phpunit/phpunit": "^6.0",
             "squizlabs/php_codesniffer": "^2.3"
         },
-        "time": "2017-02-12 22:35:11",
+        "time": "2017-02-12T22:35:11+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -489,7 +489,7 @@
         "require-dev": {
             "phpunit/phpunit": "^6.1"
         },
-        "time": "2017-05-07 19:04:10",
+        "time": "2017-05-07T19:04:10+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -546,7 +546,7 @@
         "suggest": {
             "mdanter/ecc": "Required to use Elliptic Curves based algorithms."
         },
-        "time": "2017-05-07 21:25:30",
+        "time": "2017-05-07T21:25:30+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -620,7 +620,7 @@
             "ramsey/uuid-console": "A console application for generating UUIDs with ramsey/uuid",
             "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
         },
-        "time": "2017-09-22 20:46:04",
+        "time": "2017-09-22T20:46:04+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -662,17 +662,17 @@
     },
     {
         "name": "blockvis/civic-sip-php",
-        "version": "v0.2.0",
-        "version_normalized": "0.2.0.0",
+        "version": "v0.4.0",
+        "version_normalized": "0.4.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/blockvis/civic-sip-php.git",
-            "reference": "7d48ade5426375efcb39b1234d634f6cb60216ef"
+            "reference": "274d3b00344f1a4bc90f84ca207da681b5239b54"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/blockvis/civic-sip-php/zipball/7d48ade5426375efcb39b1234d634f6cb60216ef",
-            "reference": "7d48ade5426375efcb39b1234d634f6cb60216ef",
+            "url": "https://api.github.com/repos/blockvis/civic-sip-php/zipball/274d3b00344f1a4bc90f84ca207da681b5239b54",
+            "reference": "274d3b00344f1a4bc90f84ca207da681b5239b54",
             "shasum": ""
         },
         "require": {
@@ -686,7 +686,7 @@
         "require-dev": {
             "phpspec/phpspec": "^4.0"
         },
-        "time": "2017-09-20 14:28:21",
+        "time": "2017-09-27T15:13:05+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

@@ -56,9 +56,9 @@
                 'nonce': civic_ajax.nonce,
                 'token': jwtToken
             },
-            success: function (data) {
-                console.log("Auth Response", data);
-                if (data.logged_in == true) {
+            success: function (response) {
+                console.log("Auth Response", response);
+                if (response.data.logged_in == true) {
                     document.location.href = civic_ajax.redirect_url;
                 }
             }

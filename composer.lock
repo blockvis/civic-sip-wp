@@ -4,21 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aa8b35a86caee9bd35c3e2ba3a3a3525",
-    "content-hash": "2c0624c6d97d80d835d77acbadb93c46",
+    "content-hash": "5ec8f36cf2a53c095027faca24fe0506",
     "packages": [
         {
             "name": "blockvis/civic-sip-php",
-            "version": "v0.2.0",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blockvis/civic-sip-php.git",
-                "reference": "7d48ade5426375efcb39b1234d634f6cb60216ef"
+                "reference": "274d3b00344f1a4bc90f84ca207da681b5239b54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blockvis/civic-sip-php/zipball/7d48ade5426375efcb39b1234d634f6cb60216ef",
-                "reference": "7d48ade5426375efcb39b1234d634f6cb60216ef",
+                "url": "https://api.github.com/repos/blockvis/civic-sip-php/zipball/274d3b00344f1a4bc90f84ca207da681b5239b54",
+                "reference": "274d3b00344f1a4bc90f84ca207da681b5239b54",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +56,7 @@
                 "civic",
                 "sip"
             ],
-            "time": "2017-09-20 14:28:21"
+            "time": "2017-09-27T15:13:05+00:00"
         },
         {
             "name": "fgrosse/phpasn1",
@@ -114,7 +113,7 @@
             ],
             "description": "A PHP Framework that allows you to encode and decode arbitrary ASN.1 structures using the ITU-T X.690 Encoding Rules.",
             "homepage": "https://github.com/FGrosse/PHPASN1",
-            "time": "2015-09-30 18:31:02"
+            "time": "2015-09-30T18:31:02+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -179,7 +178,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2017-06-22 18:50:49"
+            "time": "2017-06-22T18:50:49+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -230,7 +229,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2017-05-20 23:14:18"
+            "time": "2017-05-20T23:14:18+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -295,7 +294,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2017-07-17 09:11:21"
+            "time": "2017-07-17T09:11:21+00:00"
         },
         {
             "name": "lcobucci/clock",
@@ -339,7 +338,7 @@
                 }
             ],
             "description": "Yet another clock abstraction",
-            "time": "2017-05-07 19:04:10"
+            "time": "2017-05-07T19:04:10+00:00"
         },
         {
             "name": "lcobucci/jose-parsing",
@@ -390,7 +389,7 @@
                 "JOSE",
                 "base64url"
             ],
-            "time": "2017-02-12 22:35:11"
+            "time": "2017-02-12T22:35:11+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -450,7 +449,7 @@
                 "JWS",
                 "jwt"
             ],
-            "time": "2017-05-07 21:25:30"
+            "time": "2017-05-07T21:25:30+00:00"
         },
         {
             "name": "mdanter/ecc",
@@ -516,7 +515,7 @@
                 "phpecc",
                 "secp256k1"
             ],
-            "time": "2017-09-22 15:12:06"
+            "time": "2017-09-22T15:12:06+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -564,7 +563,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2017-03-13 16:27:32"
+            "time": "2017-03-13T16:27:32+00:00"
         },
         {
             "name": "psr/http-message",
@@ -614,7 +613,7 @@
                 "request",
                 "response"
             ],
-            "time": "2016-08-06 14:39:51"
+            "time": "2016-08-06T14:39:51+00:00"
         },
         {
             "name": "ramsey/uuid",
@@ -696,7 +695,7 @@
                 "identifier",
                 "uuid"
             ],
-            "time": "2017-09-22 20:46:04"
+            "time": "2017-09-22T20:46:04+00:00"
         }
     ],
     "packages-dev": [],

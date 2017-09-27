@@ -2,20 +2,23 @@
 
 namespace Blockvis\Civic\Sip;
 
-class UserData
-{
-    /**
-     * @var string
-     */
-    private $userId;
+use JsonSerializable;
 
+class UserData implements JsonSerializable
+{
     /**
      * @var UserDataItem[]
      */
     private $items = [];
 
     /**
+     * @var string
+     */
+    private $userId;
+
+    /**
      * UserData constructor.
+     *
      * @param string $userId
      * @param array $data
      */
@@ -26,6 +29,37 @@ class UserData
     }
 
     /**
+     * Returns user data item by its label.
+     *
+     * @param string $label
+     * @return UserDataItem|null
+     */
+    public function getByLabel(string $label): ?UserDataItem
+    {
+        return $this->items[$label] ?? null;
+    }
+
+    /**
+     * Returns all the user data items.
+     *
+     * @return UserDataItem[]
+     */
+    public function items(): array
+    {
+        return array_values($this->items);
+    }
+
+	/**
+	 * @return array|UserDataItem[]
+	 */
+	public function jsonSerialize()
+	{
+		return $this->items();
+	}
+
+    /**
+     * Returns the user id.
+     *
      * @return string
      */
     public function userId(): string
@@ -34,14 +68,8 @@ class UserData
     }
 
     /**
-     * @return UserDataItem[]
-     */
-    public function items(): array
-    {
-        return $this->items;
-    }
-
-    /**
+     * Creates data item object from array.
+     *
      * @param array $data
      * @return array
      */
@@ -49,7 +77,7 @@ class UserData
     {
         $items = [];
         foreach ($data as $item) {
-            $items[] = new UserDataItem(
+            $items[$item['label']] = new UserDataItem(
                 $item['label'],
                 $item['value'],
                 $item['isValid'],
@@ -59,4 +87,5 @@ class UserData
 
         return $items;
     }
+
 }

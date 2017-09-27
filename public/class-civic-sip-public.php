@@ -30,7 +30,7 @@ class Civic_Sip_Public {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @var      string $plugin_name The ID of this plugin.
 	 */
 	private $plugin_name;
 
@@ -39,48 +39,64 @@ class Civic_Sip_Public {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @var      string $version The current version of this plugin.
 	 */
 	private $version;
+
+	/**
+	 * @var array
+	 */
+	private $settings = [
+		'app_id'               => '',
+		'secret'               => '',
+		'pubkey'               => '',
+		'privkey'              => '',
+		'wp_user_auth_enabled' => '',
+	];
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 *
+	 * @param      string $plugin_name The name of the plugin.
+	 * @param      string $version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 	}
 
 	/**
 	 * @since   1.0.0
 	 */
 	public function civic_auth() {
+
 		// Check the nonce first.
-		check_ajax_referer( 'civic', 'nonce');
+		check_ajax_referer( 'civic', 'nonce' );
 
-		$settings = get_option($this->plugin_name . '-settings');
-		$client = new Client( new AppConfig( $settings['app_id'], $settings['secret'], $settings['privkey']), new \GuzzleHttp\Client());
-		$user_data = $client->exchangeToken( trim($_POST['token']));
+		// Retrieve civic member data.
+		$user_data = $this->exchange_token( trim( $_POST['token'] ) );
 
-		/** @var \Blockvis\Civic\Sip\UserDataItem $emailItem */
-		$emailItem = array_filter($user_data->items(), function (\Blockvis\Civic\Sip\UserDataItem $item) {
-			return $item->label() == 'contact.personal.email';
-		})[0];
+		if ( ! $this->settings()['wp_user_auth_enabled'] ) {
+			do_action( 'civic_auth', $user_data );
+			wp_send_json_success( [ 'logged_in' => true ] );
+		}
 
+		$email = $user_data->getByLabel( 'contact.personal.email' );
 		/** @var WP_User $user */
-		$user = get_user_by('email', $emailItem->value());
-		if( $user ) {
+		$user = get_user_by( 'email', $email->value() );
+		if ( $user ) {
 			wp_set_current_user( $user->ID, $user->user_login );
 			wp_set_auth_cookie( $user->ID );
 			do_action( 'wp_login', $user->user_login );
+			wp_send_json_success( [ 'logged_in' => true ] );
 		}
 
-		wp_send_json(['logged_in' => true]);
+		// todo: implement new user registration
+
+		wp_send_json_success( [ 'logged_in' => false ] );
 	}
 
 	/**
@@ -90,20 +106,20 @@ class Civic_Sip_Public {
 	 */
 	public function register_civic_auth_shortcode() {
 
-		$settings = get_option($this->plugin_name . '-settings');
+		$settings = $this->settings();
 
 		// Civic App details.
-		wp_localize_script($this->plugin_name, 'civic_app', [
-			'id' => !empty($settings['app_id']) ? $settings['app_id'] : '',
-		]);
+		wp_localize_script( $this->plugin_name, 'civic_app', [
+			'id' => ! empty( $settings['app_id'] ) ? $settings['app_id'] : '',
+		] );
 
 		// Civic auth AJAX endpoint params.
-		wp_localize_script($this->plugin_name, 'civic_ajax', [
-			'action' => 'civic_auth',
-			'url' => admin_url( 'admin-ajax.php' ),
+		wp_localize_script( $this->plugin_name, 'civic_ajax', [
+			'action'       => 'civic_auth',
+			'url'          => admin_url( 'admin-ajax.php' ),
 			'redirect_url' => home_url(),
-			'nonce' => wp_create_nonce('civic'),
-		]);
+			'nonce'        => wp_create_nonce( 'civic' ),
+		] );
 
 		// Enqueue required assets only when shortcode is used.
 		wp_enqueue_script( $this->plugin_name );
@@ -132,9 +148,51 @@ class Civic_Sip_Public {
 	 */
 	public function enqueue_scripts() {
 
-		wp_register_script('civic-sip-hosted','https://hosted-sip.civic.com/js/civic.sip.min.js', array( 'jquery' ), $this->version, false );
-		wp_register_script($this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/civic-sip-public.js', array( 'civic-sip-hosted' ), $this->version, false );
+		wp_register_script( 'civic-sip-hosted', 'https://hosted-sip.civic.com/js/civic.sip.min.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/civic-sip-public.js', array( 'civic-sip-hosted' ), $this->version, false );
 
 	}
 
+	/**
+	 * Exchanges authorization code for requested user data.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @param string $token
+	 *
+	 * @return \Blockvis\Civic\Sip\UserData
+	 */
+	private function exchange_token( $token ) {
+
+		$settings = $this->settings();
+		$client   = new Client(
+			new AppConfig( $settings['app_id'], $settings['secret'], $settings['privkey'] ),
+			new \GuzzleHttp\Client()
+		);
+
+		try {
+			$user_data = $client->exchangeToken( $token );
+		} catch ( Exception $e ) {
+			wp_send_json_error( new WP_Error( 'civic_sip_request_error', __( 'Civic SIP authorization failed.' ) ) );
+		}
+
+		$email = $user_data->getByLabel( 'contact.personal.email' );
+		if ( empty( $email ) || ! $email->isValid() ) {
+			wp_send_json_error( new WP_Error( 'civic_sip_invalid_email', __( 'Invalid civic member email.' ) ) );
+		}
+
+		return $user_data;
+	}
+
+	/**
+	 * Returns plugin settings.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return array
+	 */
+	private function settings() {
+
+		return array_merge( $this->settings, get_option( $this->plugin_name . '-settings' ) );
+	}
 }
