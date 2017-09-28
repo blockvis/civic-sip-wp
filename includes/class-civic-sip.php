@@ -35,7 +35,7 @@ class Civic_Sip {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Civic_Sip_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Civic_Sip_Loader $loader Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -44,7 +44,7 @@ class Civic_Sip {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var      string $plugin_name The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
 
@@ -53,7 +53,7 @@ class Civic_Sip {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @var      string $version The current version of the plugin.
 	 */
 	protected $version;
 
@@ -179,7 +179,7 @@ class Civic_Sip {
 
 		$plugin_public = new Civic_Sip_Public( $this->get_plugin_name(), $this->get_version() );
 
-		if (is_admin()) {
+		if ( is_admin() ) {
 			// Enable the user with no privileges to run civic_auth() in AJAX.
 			$this->loader->add_action( 'wp_ajax_nopriv_civic_auth', $plugin_public, 'civic_auth' );
 		} else {
@@ -188,7 +188,7 @@ class Civic_Sip {
 		}
 
 		// Register 'civic-auth' shortcode.
-		$this->loader->add_shortcode( 'civic-auth', $plugin_public, 'register_civic_auth_shortcode' );
+		$this->loader->add_shortcode( 'civic-auth', $plugin_public, 'render_civic_auth_shortcode' );
 	}
 
 	/**

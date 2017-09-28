@@ -100,30 +100,19 @@ class Civic_Sip_Public {
 	}
 
 	/**
-	 * Create Shortcode for Civic Auth button.
+	 * Renders Shortcode for Civic Auth button.
 	 *
 	 * @since    1.0.0
 	 */
-	public function register_civic_auth_shortcode() {
+	public function render_civic_auth_shortcode() {
 
-		$settings = $this->settings();
-
-		// Civic App details.
-		wp_localize_script( $this->plugin_name, 'civic_app', [
-			'id' => ! empty( $settings['app_id'] ) ? $settings['app_id'] : '',
-		] );
-
-		// Civic auth AJAX endpoint params.
-		wp_localize_script( $this->plugin_name, 'civic_ajax', [
-			'action'       => 'civic_auth',
-			'url'          => admin_url( 'admin-ajax.php' ),
-			'redirect_url' => home_url(),
-			'nonce'        => wp_create_nonce( 'civic' ),
-		] );
+		// Do not render for logged in users.
+		if ( is_user_logged_in() ) {
+			return '';
+		}
 
 		// Enqueue required assets only when shortcode is used.
-		wp_enqueue_script( $this->plugin_name );
-		wp_enqueue_style( $this->plugin_name );
+		$this->enqueue_shortcode_assets();
 
 		// todo: translate
 		return '<button class="js-signup">Login</button>';
@@ -194,5 +183,31 @@ class Civic_Sip_Public {
 	private function settings() {
 
 		return array_merge( $this->settings, get_option( $this->plugin_name . '-settings' ) );
+	}
+
+	/**
+	 * Adds scripts and styles required for shortcode render.
+	 *
+	 * @since    1.0.0
+	 */
+	private function enqueue_shortcode_assets()
+	{
+		$settings = $this->settings();
+
+		// Civic App details.
+		wp_localize_script( $this->plugin_name, 'civic_app', [
+			'id' => ! empty( $settings['app_id'] ) ? $settings['app_id'] : '',
+		] );
+
+		// Civic auth AJAX endpoint params.
+		wp_localize_script( $this->plugin_name, 'civic_ajax', [
+			'action'       => 'civic_auth',
+			'url'          => admin_url( 'admin-ajax.php' ),
+			'redirect_url' => home_url(),
+			'nonce'        => wp_create_nonce( 'civic' ),
+		] );
+
+		wp_enqueue_script( $this->plugin_name );
+		wp_enqueue_style( $this->plugin_name );
 	}
 }
