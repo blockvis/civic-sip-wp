@@ -87,14 +87,27 @@ class Civic_Sip_Public {
 		$email = $user_data->getByLabel( 'contact.personal.email' );
 		/** @var WP_User $user */
 		$user = get_user_by( 'email', $email->value() );
-		if ( $user ) {
-			wp_set_current_user( $user->ID, $user->user_login );
-			wp_set_auth_cookie( $user->ID );
-			do_action( 'wp_login', $user->user_login );
-			wp_send_json_success( [ 'logged_in' => true ] );
+		if ($user === false) {
+			$username = explode( '@', $email->value() )[0];
+			while (username_exists( $username )) {
+				$username .= mt_rand(11, 99);
+			}
+
+			// now attempt to generate the user and get the user id:
+			$user_id = wp_create_user( $username , wp_generate_password(), $email->value() );
+
+			// check if the user was actually created:
+			if (is_wp_error($user_id)) {
+				wp_send_json_error( new WP_Error( 'civic_sip_registration_error', __( 'Civic SIP registration failed.' ) ) );
+			}
+
+			$user = get_userdata( $user_id );
 		}
 
-		// todo: implement new user registration
+		wp_set_current_user( $user->ID, $user->user_login );
+		wp_set_auth_cookie( $user->ID );
+		do_action( 'wp_login', $user->user_login );
+		wp_send_json_success( [ 'logged_in' => true ] );
 
 		wp_send_json_success( [ 'logged_in' => false ] );
 	}
