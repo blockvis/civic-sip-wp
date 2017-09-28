@@ -214,12 +214,12 @@ class Civic_Sip_Admin {
 	public function add_settings_section() {
 		?>
         <p class="description">
-            <?php echo esc_html( __( 'These values are obtained through our Partner Developer Portal once you have registered as a partner.', 'civic-sip' ) ); ?>
+            <?php echo esc_html__( 'These values are obtained through our Partner Developer Portal once you have registered as a partner.', 'civic-sip' ); ?>
         </p>
         <p class="description">
-			<?php echo esc_html( __( 'Please follow this link to register:', 'civic-sip' ) ); ?>
+			<?php echo esc_html__( 'Please follow this link to register:', 'civic-sip' ); ?>
             <a href="https://www.civic.com/secure-identity-platform"
-               target="_blank"><?php echo esc_html( __( 'Civic SIP', 'civic-sip' ) ); ?></a>
+               target="_blank"><?php echo esc_html__( 'Civic SIP', 'civic-sip' ); ?></a>
         </p>
 		<?php
 	}

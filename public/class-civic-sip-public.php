@@ -118,11 +118,11 @@ class Civic_Sip_Public {
 	 * @since    1.0.0
 	 *
 	 * @param array $atts
-	 * @param string $content
 	 *
 	 * @return string
+	 *
 	 */
-	public function render_civic_auth_shortcode( $atts = [], $content = null ) {
+	public function render_civic_auth_shortcode( $atts = [] ) {
 
 		// Do not render for logged in users.
 		if ( is_user_logged_in() ) {
@@ -141,9 +141,7 @@ class Civic_Sip_Public {
 		], $atts );
 
 		$html = '<button class="js-civic-signup ' . esc_attr( $atts['class'] ) . '">';
-		if ( ! is_null( $content ) ) {
-			$html .= do_shortcode( $content );
-		}
+		$html .= esc_html__( 'Login with Civic', 'civic-sip' );
 		$html .= '</button>';
 
 		return $html;
@@ -193,12 +191,12 @@ class Civic_Sip_Public {
 		try {
 			$user_data = $client->exchangeToken( $token );
 		} catch ( Exception $e ) {
-			wp_send_json_error( new WP_Error( 'civic_sip_request_error', __( 'Civic SIP authorization failed.' ) ) );
+			wp_send_json_error( new WP_Error( 'civic_sip_request_error', __( 'Civic SIP authorization failed.', 'civic-sip' ) ) );
 		}
 
 		$email = $user_data->getByLabel( 'contact.personal.email' );
 		if ( empty( $email ) || ! $email->isValid() ) {
-			wp_send_json_error( new WP_Error( 'civic_sip_invalid_email', __( 'Invalid civic member email.' ) ) );
+			wp_send_json_error( new WP_Error( 'civic_sip_invalid_email', __( 'Invalid civic member email.', 'civic-sip' ) ) );
 		}
 
 		return $user_data;
