@@ -103,8 +103,13 @@ class Civic_Sip_Public {
 	 * Renders Shortcode for Civic Auth button.
 	 *
 	 * @since    1.0.0
+	 *
+	 * @param array $atts
+	 * @param string $content
+	 *
+	 * @return string
 	 */
-	public function render_civic_auth_shortcode() {
+	public function render_civic_auth_shortcode( $atts = [], $content = null ) {
 
 		// Do not render for logged in users.
 		if ( is_user_logged_in() ) {
@@ -114,8 +119,21 @@ class Civic_Sip_Public {
 		// Enqueue required assets only when shortcode is used.
 		$this->enqueue_shortcode_assets();
 
-		// todo: translate
-		return '<button class="js-signup">Login</button>';
+		// Normalize attribute keys, lowercase.
+		$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+
+		// Override default attributes with user attributes.
+		$atts = shortcode_atts( [
+			'class' => '',
+		], $atts );
+
+		$html = '<button class="js-civic-signup ' . esc_attr( $atts['class'] ) . '">';
+		if ( ! is_null( $content ) ) {
+			$html .= do_shortcode( $content );
+		}
+		$html .= '</button>';
+
+		return $html;
 	}
 
 	/**
@@ -190,8 +208,7 @@ class Civic_Sip_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	private function enqueue_shortcode_assets()
-	{
+	private function enqueue_shortcode_assets() {
 		$settings = $this->settings();
 
 		// Civic App details.
