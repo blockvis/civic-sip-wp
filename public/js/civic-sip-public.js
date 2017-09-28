@@ -1,10 +1,10 @@
-(function( $ ) {
-	'use strict';
+(function ($) {
+    'use strict';
 
-    var civicSip = new civic.sip({ appId: civic_app.id });
+    var civicSip = new civic.sip({appId: civic_app.id});
     // Start scope request.
-    $('button.js-civic-signup').click(function(event) {
-        civicSip.signup({ style: 'popup', scopeRequest: civicSip.ScopeRequests.BASIC_SIGNUP });
+    $('button.js-civic-signup').click(function (event) {
+        civicSip.signup({style: 'popup', scopeRequest: civicSip.ScopeRequests.BASIC_SIGNUP});
     });
 
     // Listen for data
@@ -23,13 +23,13 @@
     });
 
     function sendAuthCode(jwtToken) {
-        console.log('Sending Authorization Code: ', jwtToken);
+
         $.ajax({
             type: 'POST',
             dataType: 'json',
             url: civic_ajax.url,
             data: {
-                'action': civic_ajax.action,
+                'action': 'civic_auth',
                 'nonce': civic_ajax.nonce,
                 'token': jwtToken
             },
@@ -46,8 +46,7 @@
                         $('<div class="civic-onboarding">' +
                             '<div class="civic-informant civic-form-modal">' +
                             '  <div id="civic-retry-box" class="civic-top civic-switch">' +
-                            '      <h3>It looks like you are new to this site. <br> Please register using ' + response.data.email +
-                            '      </h3>' +
+                            '      <h3>It looks like you are new to this site. <br> Do you want to register this email ' + response.data.email + '?' +                            '      </h3>' +
                             '      <div class="civic-button-container two-up">' +
                             '          <button type="button" id="civic-register" class="medium outline">Register</button>' +
                             '          <div class="civic-help-links">' +
@@ -56,20 +55,26 @@
                             '      </div>' +
                             '  </div>' +
                             '</div>' +
-                          '</div>')
+                            '</div>')
                     ).attr('style', ''); // Removes style height.
 
-                    $('#civic-register').on('click', function() {
+                    $('#civic-register').on('click', function () {
+                        console.log('Register');
                         $.ajax({
                             type: 'POST',
-                            url: civic_ajax.url, // TODO: chacnge to the new endpoint
+                            dataType: 'json',
+                            url: civic_ajax.url,
+                            data: {
+                                'action': 'civic_register',
+                                'nonce': civic_ajax.nonce
+                            },
                             success: function () {
                                 document.location.href = civic_ajax.redirect_url;
                             }
                         });
                     });
 
-                    $('#civic-cancel').on('click', function() {
+                    $('#civic-cancel').on('click', function () {
                         modal.removeClass('civic-show');
                         $('body').removeClass('civic-hit-the-lights civic-no-scroll');
                     });
@@ -78,4 +83,4 @@
         });
     }
 
-})( jQuery );
+})(jQuery);

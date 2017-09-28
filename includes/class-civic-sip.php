@@ -180,8 +180,9 @@ class Civic_Sip {
 		$plugin_public = new Civic_Sip_Public( $this->get_plugin_name(), $this->get_version() );
 
 		if ( is_admin() ) {
-			// Enable the user with no privileges to run civic_auth() in AJAX.
+			$this->loader->add_action( 'init', $plugin_public, 'start_session' );
 			$this->loader->add_action( 'wp_ajax_nopriv_civic_auth', $plugin_public, 'civic_auth' );
+			$this->loader->add_action( 'wp_ajax_nopriv_civic_register', $plugin_public, 'civic_register' );
 		} else {
 			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 			$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );

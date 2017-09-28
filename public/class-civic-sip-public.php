@@ -69,6 +69,8 @@ class Civic_Sip_Public {
 	}
 
 	/**
+	 * Exchanges civic authorization token for user data.
+	 *
 	 * @since   1.0.0
 	 */
 	public function civic_auth() {
@@ -87,29 +89,44 @@ class Civic_Sip_Public {
 		$email = $user_data->getByLabel( 'contact.personal.email' );
 		/** @var WP_User $user */
 		$user = get_user_by( 'email', $email->value() );
-		if ($user === false) {
-			$username = explode( '@', $email->value() )[0];
-			while (username_exists( $username )) {
-				$username .= mt_rand(11, 99);
-			}
-
-			// now attempt to generate the user and get the user id:
-			$user_id = wp_create_user( $username , wp_generate_password(), $email->value() );
-
-			// check if the user was actually created:
-			if (is_wp_error($user_id)) {
-				wp_send_json_error( new WP_Error( 'civic_sip_registration_error', __( 'Civic SIP registration failed.' ) ) );
-			}
-
-			$user = get_userdata( $user_id );
+		if ( $user === false ) {
+			$_SESSION['civic_sip_email'] = $email->value();
+			wp_send_json_success( [ 'logged_in' => false, 'email' => $email->value() ] );
 		}
 
-		wp_set_current_user( $user->ID, $user->user_login );
-		wp_set_auth_cookie( $user->ID );
-		do_action( 'wp_login', $user->user_login );
-		wp_send_json_success( [ 'logged_in' => true ] );
+		$this->wp_login( $user );
+	}
 
-		wp_send_json_success( [ 'logged_in' => false ] );
+	/**
+	 * Creates new WP user with civic member email.
+	 *
+	 * @since   1.0.0
+	 */
+	public function civic_register() {
+
+		// Check the nonce first.
+		check_ajax_referer( 'civic', 'nonce' );
+
+		$email = $_SESSION['civic_sip_email'];
+
+		//var_dump($email); die;
+		$username = explode( '@', $email )[0];
+		while ( username_exists( $username ) ) {
+			$username .= mt_rand( 11, 99 );
+		}
+
+		// Attempt to generate the user and get the user id.
+		$user_id = wp_create_user( $username, wp_generate_password(), $email );
+
+		// Check if the user was actually created.
+		if ( is_wp_error( $user_id ) ) {
+			wp_send_json_error(
+				new WP_Error( 'civic_sip_registration_error', __( 'Civic SIP registration failed.', 'civic-sip' ) )
+			);
+		}
+
+		// Log in registered user automatically.
+		$this->wp_login( get_userdata( $user_id ) );
 	}
 
 	/**
@@ -229,7 +246,6 @@ class Civic_Sip_Public {
 
 		// Civic auth AJAX endpoint params.
 		wp_localize_script( $this->plugin_name, 'civic_ajax', [
-			'action'       => 'civic_auth',
 			'url'          => admin_url( 'admin-ajax.php' ),
 			'redirect_url' => home_url(),
 			'nonce'        => wp_create_nonce( 'civic' ),
@@ -237,5 +253,26 @@ class Civic_Sip_Public {
 
 		wp_enqueue_script( $this->plugin_name );
 		wp_enqueue_style( $this->plugin_name );
+	}
+
+	public function start_session() {
+		if ( ! session_id() ) {
+			session_start();
+		}
+	}
+
+	/**
+	 * Log existing WP user in.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @param WP_User $user
+	 */
+	private function wp_login( WP_User $user ) {
+
+		wp_set_current_user( $user->ID, $user->user_login );
+		wp_set_auth_cookie( $user->ID );
+		do_action( 'wp_login', $user->user_login );
+		wp_send_json_success( [ 'logged_in' => true ] );
 	}
 }
