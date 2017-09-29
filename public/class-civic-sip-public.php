@@ -255,6 +255,11 @@ class Civic_Sip_Public {
 		wp_enqueue_style( $this->plugin_name );
 	}
 
+	/**
+	 * Ensures PHP session has started.
+	 *
+	 * @since    1.0.0
+	 */
 	public function start_session() {
 		if ( ! session_id() ) {
 			session_start();
