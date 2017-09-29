@@ -27,7 +27,7 @@ class Civic_Sip_Admin {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @var      string $plugin_name The ID of this plugin.
 	 */
 	private $plugin_name;
 
@@ -36,7 +36,7 @@ class Civic_Sip_Admin {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @var      string $version The current version of this plugin.
 	 */
 	private $version;
 
@@ -44,13 +44,14 @@ class Civic_Sip_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 *
+	 * @param      string $plugin_name The name of this plugin.
+	 * @param      string $version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 	}
 
@@ -191,8 +192,8 @@ class Civic_Sip_Admin {
 	public function add_settings_field_single_checkbox( $args ) {
 
 		$field_id = $args['value_for'];
-		$options = get_option( $this->plugin_name . '-settings' );
-		$option = isset($options[$field_id]) ? $options[$field_id] : 1;
+		$options  = get_option( $this->plugin_name . '-settings' );
+		$option   = isset( $options[ $field_id ] ) ? $options[ $field_id ] : 0;
 
 		?>
 
@@ -200,8 +201,8 @@ class Civic_Sip_Admin {
             <input type="checkbox"
                    name="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>"
                    id="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>"
-                   <?php checked( $option, true, 1 ); ?>
-                   value="1" />
+				<?php checked( 1, $option, 1 ); ?>
+                   value="1"/>
         </label>
 
 		<?php
@@ -214,7 +215,7 @@ class Civic_Sip_Admin {
 	public function add_settings_section() {
 		?>
         <p class="description">
-            <?php echo esc_html__( 'These values are obtained through our Partner Developer Portal once you have registered as a partner.', 'civic-sip' ); ?>
+			<?php echo esc_html__( 'These values are obtained through our Partner Developer Portal once you have registered as a partner.', 'civic-sip' ); ?>
         </p>
         <p class="description">
 			<?php echo esc_html__( 'Please follow this link to register:', 'civic-sip' ); ?>

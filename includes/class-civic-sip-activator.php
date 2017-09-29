@@ -31,6 +31,10 @@ class Civic_Sip_Activator {
 	 */
 	public static function activate() {
 
+		// Enable WP user auth flow upon first activation.
+		if ( get_option( 'civic-sip-settings' ) === false ) {
+			update_option( 'civic-sip-settings', [ 'wp_user_auth_enabled' => 1 ] );
+		}
 	}
 
 }
