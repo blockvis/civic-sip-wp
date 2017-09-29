@@ -228,7 +228,7 @@ class Civic_Sip_Public {
 	 */
 	private function settings() {
 
-		return array_merge( $this->settings, get_option( $this->plugin_name . '-settings' ) );
+		return array_merge( $this->settings, get_option( $this->plugin_name . '-settings', array() ) );
 	}
 
 	/**
