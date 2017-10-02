@@ -52,7 +52,10 @@
             },
             success: function (response) {
                 console.log("Auth Response", response);
-                if (response.data.logged_in == true) {
+                if (response == 0) {
+                    // Already logged in, reload the document
+                    document.location.reload(true);
+                } else if (response.data.logged_in == true) {
                     document.location.href = civic_ajax.redirect_url;
                 } else {
                     $('body').addClass('civic-hit-the-lights civic-no-scroll');
