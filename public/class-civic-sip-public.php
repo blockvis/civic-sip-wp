@@ -86,12 +86,15 @@ class Civic_Sip_Public {
 			wp_send_json_success( [ 'logged_in' => true ] );
 		}
 
-		$email = $user_data->getByLabel( 'contact.personal.email' );
+		$email = $user_data->getByLabel( 'contact.personal.email' )->value();
 		/** @var WP_User $user */
-		$user = get_user_by( 'email', $email->value() );
+		$user = get_user_by( 'email', $email );
 		if ( $user === false ) {
-			$_SESSION['civic_sip_email'] = $email->value();
-			wp_send_json_success( [ 'logged_in' => false, 'email' => $email->value() ] );
+			$_SESSION['civic_sip_email'] = $email;
+			ob_start();
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/civic-sip-registration-modal.php';
+			$modal = ob_get_clean();
+			wp_send_json_success( [ 'logged_in' => false, 'email' => $email, 'modal' => $modal ] );
 		}
 
 		$this->wp_login( $user );

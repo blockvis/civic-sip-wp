@@ -63,22 +63,8 @@
                     modal.find('iframe').remove();
                     modal.find('.civic-loader').hide();
                     modal.find('.civic-window').show();
-                    modal.find('.civic-content').append(
-                        // TODO: move rendering to php
-                        $('<div class="civic-onboarding">' +
-                            '<div class="civic-informant civic-form-modal">' +
-                            '  <div class="civic-top civic-switch">' +
-                            '      <h3>It looks like you are new to this site. <br> Do you want to register this email ' + response.data.email + '?' +                            '      </h3>' +
-                            '      <div class="civic-button-container two-up">' +
-                            '          <button type="button" id="civic-register" class="medium outline">Register</button>' +
-                            '          <div class="civic-help-links">' +
-                            '              <a id="civic-cancel" href="">Cancel</a>' +
-                            '          </div>' +
-                            '      </div>' +
-                            '  </div>' +
-                            '</div>' +
-                            '</div>')
-                    ).attr('style', ''); // Removes style height.
+                    modal.find('.civic-content').append( response.data.modal )
+                        .attr('style', ''); // Removes style height.
 
                     $('#civic-register').on('click', function () {
                         console.log('Register');
