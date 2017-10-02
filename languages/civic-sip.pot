@@ -1,0 +1,105 @@
+# Copyright (C) 2017 Civic SIP
+# This file is distributed under the same license as the Civic SIP package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Civic SIP 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civic-sip\n"
+"POT-Creation-Date: 2017-10-02 14:48:47+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-10-02 15:00+00:00\n"
+"Last-Translator: Blockvis <blockvis@blockvis.com>\n"
+"Language-Team: English <blockvis@blockvis.com>\n"
+
+#: admin/class-civic-sip-admin.php:83 admin/class-civic-sip-admin.php:84
+msgid "Civic QR Auth"
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:114
+msgid "Settings"
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:121
+msgid "App ID"
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:132
+msgid "Public Signing Key "
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:143
+msgid "Private Signing Key"
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:154
+msgid "Secret"
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:164
+msgid "Enable WP User Authentication"
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:218
+msgid ""
+"These values are obtained through our Partner Developer Portal once you have "
+"registered as a partner."
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:221
+msgid "Please follow this link to register:"
+msgstr ""
+
+#. #-#-#-#-#  civic-sip.pot (Civic SIP 1.0.0)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: admin/class-civic-sip-admin.php:223
+msgid "Civic SIP"
+msgstr ""
+
+#: public/class-civic-sip-public.php:127
+msgid "Civic SIP registration failed."
+msgstr ""
+
+#: public/class-civic-sip-public.php:164
+msgid "Login with Civic"
+msgstr ""
+
+#: public/class-civic-sip-public.php:214
+msgid "Civic SIP authorization failed."
+msgstr ""
+
+#: public/class-civic-sip-public.php:219
+msgid "Invalid civic member email."
+msgstr ""
+
+#: public/partials/civic-sip-registration-modal.php:4
+msgid ""
+"It looks like you are new to this site. <br>\n"
+"                Do you want to register as %s?"
+msgstr ""
+
+#: public/partials/civic-sip-registration-modal.php:8
+msgid "Register"
+msgstr ""
+
+#: public/partials/civic-sip-registration-modal.php:11
+msgid "Cancel"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/blockvis/civic-sip-wp"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Civic Secure Identity Platform (SIP) authorization plugin. Sign in to your "
+"blog using Civic Mobile App."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Blockvis"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://blockvis.com"
+msgstr ""
