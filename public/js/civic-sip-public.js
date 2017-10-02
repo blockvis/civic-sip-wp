@@ -64,7 +64,7 @@
                         // TODO: move rendering to php
                         $('<div class="civic-onboarding">' +
                             '<div class="civic-informant civic-form-modal">' +
-                            '  <div id="civic-retry-box" class="civic-top civic-switch">' +
+                            '  <div class="civic-top civic-switch">' +
                             '      <h3>It looks like you are new to this site. <br> Do you want to register this email ' + response.data.email + '?' +                            '      </h3>' +
                             '      <div class="civic-button-container two-up">' +
                             '          <button type="button" id="civic-register" class="medium outline">Register</button>' +
