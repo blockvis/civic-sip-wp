@@ -74,7 +74,8 @@
                             url: civic_ajax.url,
                             data: {
                                 'action': 'civic_register',
-                                'nonce': civic_ajax.nonce
+                                'nonce': civic_ajax.nonce,
+                                'email': response.data.email
                             },
                             success: function () {
                                 document.location.href = civic_ajax.redirect_url;

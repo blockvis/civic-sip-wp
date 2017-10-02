@@ -90,7 +90,6 @@ class Civic_Sip_Public {
 		/** @var WP_User $user */
 		$user = get_user_by( 'email', $email );
 		if ( $user === false ) {
-			$_SESSION['civic_sip_email'] = $email;
 			ob_start();
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/civic-sip-registration-modal.php';
 			$modal = ob_get_clean();
@@ -110,7 +109,7 @@ class Civic_Sip_Public {
 		// Check the nonce first.
 		check_ajax_referer( 'civic', 'nonce' );
 
-		$email = $_SESSION['civic_sip_email'];
+		$email = $_POST['email'];
 
 		//var_dump($email); die;
 		$username = explode( '@', $email )[0];
@@ -256,17 +255,6 @@ class Civic_Sip_Public {
 
 		wp_enqueue_script( $this->plugin_name );
 		wp_enqueue_style( $this->plugin_name );
-	}
-
-	/**
-	 * Ensures PHP session has started.
-	 *
-	 * @since    1.0.0
-	 */
-	public function start_session() {
-		if ( ! session_id() ) {
-			session_start();
-		}
 	}
 
 	/**

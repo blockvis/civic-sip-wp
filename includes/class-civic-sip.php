@@ -180,7 +180,6 @@ class Civic_Sip {
 		$plugin_public = new Civic_Sip_Public( $this->get_plugin_name(), $this->get_version() );
 
 		if ( is_admin() ) {
-			$this->loader->add_action( 'init', $plugin_public, 'start_session' );
 			$this->loader->add_action( 'wp_ajax_nopriv_civic_auth', $plugin_public, 'civic_auth' );
 			$this->loader->add_action( 'wp_ajax_nopriv_civic_register', $plugin_public, 'civic_register' );
 		}
