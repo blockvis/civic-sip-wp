@@ -78,13 +78,14 @@ class Civic_Sip_Admin {
 	 */
 	public function register_settings_page() {
 
-		add_submenu_page(
-			'options-general.php',
+		add_menu_page(
 			__( 'Civic QR Auth', 'civic-sip' ),
 			__( 'Civic QR Auth', 'civic-sip' ),
 			'manage_options',
 			'civic-qr-auth',
-			[ $this, 'display_settings_page' ]
+			[ $this, 'display_settings_page' ],
+			plugin_dir_url(__FILE__) . 'images/icon_civic.png',
+			90
 		);
 
 	}
