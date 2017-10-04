@@ -8,12 +8,20 @@ class ComposerStaticIniteba4ef65148265e2781b911f042ba6de
 {
     public static $files = array (
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        'a4ecaeafb8cfb009ad0e052c90355e98' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/functions.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '023d27dca8066ef29e6739335ea73bad' => __DIR__ . '/..' . '/symfony/polyfill-php70/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Php70\\' => 23,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+        ),
         'R' => 
         array (
             'Ramsey\\Uuid\\' => 12,
@@ -21,16 +29,15 @@ class ComposerStaticIniteba4ef65148265e2781b911f042ba6de
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Cache\\' => 10,
         ),
         'M' => 
         array (
             'Mdanter\\Ecc\\' => 12,
         ),
-        'L' => 
+        'J' => 
         array (
-            'Lcobucci\\Jose\\Parsing\\' => 22,
-            'Lcobucci\\JWT\\' => 13,
-            'Lcobucci\\Clock\\' => 15,
+            'Jose\\' => 5,
         ),
         'G' => 
         array (
@@ -45,10 +52,25 @@ class ComposerStaticIniteba4ef65148265e2781b911f042ba6de
         'B' => 
         array (
             'Blockvis\\Civic\\Sip\\' => 19,
+            'Base64Url\\' => 10,
+        ),
+        'A' => 
+        array (
+            'Assert\\' => 7,
+            'AESKW\\' => 6,
+            'AESGCM\\' => 7,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Php70\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php70',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
         'Ramsey\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
@@ -57,21 +79,17 @@ class ComposerStaticIniteba4ef65148265e2781b911f042ba6de
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
         'Mdanter\\Ecc\\' => 
         array (
             0 => __DIR__ . '/..' . '/mdanter/ecc/src',
         ),
-        'Lcobucci\\Jose\\Parsing\\' => 
+        'Jose\\' => 
         array (
-            0 => __DIR__ . '/..' . '/lcobucci/jose-parsing/src',
-        ),
-        'Lcobucci\\JWT\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
-        ),
-        'Lcobucci\\Clock\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/lcobucci/clock/src',
+            0 => __DIR__ . '/..' . '/spomky-labs/jose/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -93,6 +111,31 @@ class ComposerStaticIniteba4ef65148265e2781b911f042ba6de
         array (
             0 => __DIR__ . '/..' . '/blockvis/civic-sip-php/src',
         ),
+        'Base64Url\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spomky-labs/base64url/src',
+        ),
+        'Assert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/beberlei/assert/lib/Assert',
+        ),
+        'AESKW\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spomky-labs/aes-key-wrap/src',
+        ),
+        'AESGCM\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spomky-labs/php-aes-gcm/src',
+        ),
+    );
+
+    public static $classMap = array (
+        'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
+        'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
+        'DivisionByZeroError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/DivisionByZeroError.php',
+        'Error' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/Error.php',
+        'ParseError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ParseError.php',
+        'TypeError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -100,6 +143,7 @@ class ComposerStaticIniteba4ef65148265e2781b911f042ba6de
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticIniteba4ef65148265e2781b911f042ba6de::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticIniteba4ef65148265e2781b911f042ba6de::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticIniteba4ef65148265e2781b911f042ba6de::$classMap;
 
         }, null, ClassLoader::class);
     }

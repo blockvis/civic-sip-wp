@@ -6,15 +6,20 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Symfony\\Polyfill\\Php70\\' => array($vendorDir . '/symfony/polyfill-php70'),
+    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
+    'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'Mdanter\\Ecc\\' => array($vendorDir . '/mdanter/ecc/src'),
-    'Lcobucci\\Jose\\Parsing\\' => array($vendorDir . '/lcobucci/jose-parsing/src'),
-    'Lcobucci\\JWT\\' => array($vendorDir . '/lcobucci/jwt/src'),
-    'Lcobucci\\Clock\\' => array($vendorDir . '/lcobucci/clock/src'),
+    'Jose\\' => array($vendorDir . '/spomky-labs/jose/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'FG\\' => array($vendorDir . '/fgrosse/phpasn1/lib'),
     'Blockvis\\Civic\\Sip\\' => array($vendorDir . '/blockvis/civic-sip-php/src'),
+    'Base64Url\\' => array($vendorDir . '/spomky-labs/base64url/src'),
+    'Assert\\' => array($vendorDir . '/beberlei/assert/lib/Assert'),
+    'AESKW\\' => array($vendorDir . '/spomky-labs/aes-key-wrap/src'),
+    'AESGCM\\' => array($vendorDir . '/spomky-labs/php-aes-gcm/src'),
 );
