@@ -992,30 +992,30 @@
     },
     {
         "name": "blockvis/civic-sip-php",
-        "version": "v0.6.0",
-        "version_normalized": "0.6.0.0",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/blockvis/civic-sip-php.git",
-            "reference": "30d224c557317252bf92f7df7fb095999d4d24b7"
+            "reference": "3bbf2a3266ff20ca1d81a14aee38c70f690086af"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/blockvis/civic-sip-php/zipball/30d224c557317252bf92f7df7fb095999d4d24b7",
-            "reference": "30d224c557317252bf92f7df7fb095999d4d24b7",
+            "url": "https://api.github.com/repos/blockvis/civic-sip-php/zipball/3bbf2a3266ff20ca1d81a14aee38c70f690086af",
+            "reference": "3bbf2a3266ff20ca1d81a14aee38c70f690086af",
             "shasum": ""
         },
         "require": {
             "ext-gmp": "*",
             "guzzlehttp/guzzle": "^6.3",
-            "php": "^7.0",
+            "php": "^5.6 || ^7.0",
             "ramsey/uuid": "^3.7",
             "spomky-labs/jose": "^6.1"
         },
         "require-dev": {
             "phpspec/phpspec": "^4.0"
         },
-        "time": "2017-10-04 13:17:15",
+        "time": "2017-10-05 08:00:09",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

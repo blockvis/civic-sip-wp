@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2719d25e2daf4658b59697e7497fac42",
-    "content-hash": "5ec8f36cf2a53c095027faca24fe0506",
+    "hash": "497c3ecc987f3f8778a9092fb60d1d6f",
+    "content-hash": "61892ee2c11b78220a998dcb837ccc5c",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -64,22 +64,22 @@
         },
         {
             "name": "blockvis/civic-sip-php",
-            "version": "v0.6.0",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blockvis/civic-sip-php.git",
-                "reference": "30d224c557317252bf92f7df7fb095999d4d24b7"
+                "reference": "3bbf2a3266ff20ca1d81a14aee38c70f690086af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blockvis/civic-sip-php/zipball/30d224c557317252bf92f7df7fb095999d4d24b7",
-                "reference": "30d224c557317252bf92f7df7fb095999d4d24b7",
+                "url": "https://api.github.com/repos/blockvis/civic-sip-php/zipball/3bbf2a3266ff20ca1d81a14aee38c70f690086af",
+                "reference": "3bbf2a3266ff20ca1d81a14aee38c70f690086af",
                 "shasum": ""
             },
             "require": {
                 "ext-gmp": "*",
                 "guzzlehttp/guzzle": "^6.3",
-                "php": "^7.0",
+                "php": "^5.6 || ^7.0",
                 "ramsey/uuid": "^3.7",
                 "spomky-labs/jose": "^6.1"
             },
@@ -111,7 +111,7 @@
                 "civic",
                 "sip"
             ],
-            "time": "2017-10-04 13:17:15"
+            "time": "2017-10-05 08:00:09"
         },
         {
             "name": "fgrosse/phpasn1",
