@@ -6,15 +6,24 @@
     $('button.js-civic-signup').click(function (event) {
         event.preventDefault();
         civicSip.signup({style: 'popup', scopeRequest: civicSip.ScopeRequests.BASIC_SIGNUP});
+        var modal = $('div.civic-modal.civic-qrcode');
+        modal.find('.civic-window').show();
+        modal.find('#civic-loader').hide();
     });
 
     // Listen for data
     civicSip.on('auth-code-received', function (event) {
         $('body').addClass('civic-hit-the-lights civic-no-scroll');
         var modal = $('div.civic-modal.civic-qrcode');
-        modal.append(
-            '<div id="civic-loader" class="civic-loader large civic-switch"><svg width="64px" height="64px" version="1.1" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="keyhole" transform="translate(4.000000, 4.000000)"><path d="M31.6750055,30.4909742 C34.1659012,29.271799 35.8812589,26.711394 35.8812589,23.750025 C35.8812589,19.607775 32.525102,16.250025 28.3848173,16.250025 C24.2445327,16.250025 20.8883758,19.607775 20.8883758,23.750025 C20.8883758,26.711493 22.6038482,29.2719702 25.094879,30.4910965 L25.094879,39.75 L31.6750055,39.75 L31.6750055,30.4909742 Z" fill="#FFFFFF"></path></g><g class="civic-circular" stroke="none" stroke-width="0" fill="none" fill-rule="evenodd"><circle class="civic-path" cx="32" cy="32" r="28" stroke="#FFFFFF" stroke-width="8" fill="none" miterlimit="10"></circle></g></svg></div>'
-        ).addClass('civic-show');
+        var loader = $('#civic-loader');
+        if (loader.length === 0) {
+            modal.append(
+                '<div id="civic-loader" class="civic-loader large civic-switch"><svg width="64px" height="64px" version="1.1" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="keyhole" transform="translate(4.000000, 4.000000)"><path d="M31.6750055,30.4909742 C34.1659012,29.271799 35.8812589,26.711394 35.8812589,23.750025 C35.8812589,19.607775 32.525102,16.250025 28.3848173,16.250025 C24.2445327,16.250025 20.8883758,19.607775 20.8883758,23.750025 C20.8883758,26.711493 22.6038482,29.2719702 25.094879,30.4910965 L25.094879,39.75 L31.6750055,39.75 L31.6750055,30.4909742 Z" fill="#FFFFFF"></path></g><g class="civic-circular" stroke="none" stroke-width="0" fill="none" fill-rule="evenodd"><circle class="civic-path" cx="32" cy="32" r="28" stroke="#FFFFFF" stroke-width="8" fill="none" miterlimit="10"></circle></g></svg></div>'
+            );
+        } else {
+            loader.show();
+        }
+        modal.addClass('civic-show');
         modal.find('.civic-window').hide();
 
         // Send JWT token to app server
