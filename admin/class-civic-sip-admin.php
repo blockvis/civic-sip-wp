@@ -129,24 +129,25 @@ class Civic_Sip_Admin {
 		);
 
 		add_settings_field(
-			'pubkey',
-			__( 'Public Signing Key ', 'civic-sip' ),
-			[ $this, 'add_settings_field_input_text' ],
-			$this->plugin_name . '-settings',
-			$this->plugin_name . '-settings-section',
-			[
-				'value_for' => 'pubkey',
-			]
-		);
-
-		add_settings_field(
 			'privkey',
 			__( 'Private Signing Key', 'civic-sip' ),
-			[ $this, 'add_settings_field_input_text' ],
+			[ $this, 'add_settings_field_input_textarea' ],
 			$this->plugin_name . '-settings',
 			$this->plugin_name . '-settings-section',
 			[
 				'value_for' => 'privkey',
+			]
+		);
+
+		add_settings_field(
+			'pubkey',
+			__( 'Public Signing Key ', 'civic-sip' ),
+			[ $this, 'add_settings_field_input_textarea' ],
+			$this->plugin_name . '-settings',
+			$this->plugin_name . '-settings-section',
+			[
+				'value_for' => 'pubkey',
+                'rows' => 5,
 			]
 		);
 
@@ -190,6 +191,21 @@ class Civic_Sip_Admin {
 	/**
 	 * @since 1.0.0
 	 */
+	public function add_settings_field_input_textarea( $args ) {
+		$field_id = $args['value_for'];
+		$options  = get_option( $this->plugin_name . '-settings' );
+		$option   = isset( $options[ $field_id ] ) ? $options[ $field_id ] : '';
+		?>
+        <textarea name="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>"
+                  id="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>"
+                  rows="<?php echo isset($args['rows']) ? $args['rows'] : 3 ?>"
+                  class="regular-text"><?php echo esc_attr( $option ); ?></textarea>
+		<?php
+	}
+
+	/**
+	 * @since 1.0.0
+	 */
 	public function add_settings_field_single_checkbox( $args ) {
 
 		$field_id = $args['value_for'];
@@ -202,7 +218,7 @@ class Civic_Sip_Admin {
             <input type="checkbox"
                    name="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>"
                    id="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>"
-				<?php checked( 1, $option, 1 ); ?>
+                   <?php checked( 1, $option, 1 ); ?>
                    value="1"/>
         </label>
 
