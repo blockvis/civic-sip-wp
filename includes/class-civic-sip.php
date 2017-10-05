@@ -182,6 +182,9 @@ class Civic_Sip {
 		if ( is_admin() ) {
 			$this->loader->add_action( 'wp_ajax_nopriv_civic_auth', $plugin_public, 'civic_auth' );
 			$this->loader->add_action( 'wp_ajax_nopriv_civic_register', $plugin_public, 'civic_register' );
+			if ( $plugin_public->settings()['wp_user_auth_enabled'] ) {
+                $this->loader->add_action('civic_sip_auth', Civic_Sip_Public::class, 'sip_auth_handle', 100);
+            }
 		}
 
 		// Register plugin styles and scripts.

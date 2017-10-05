@@ -12,6 +12,7 @@
 
 use Blockvis\Civic\Sip\AppConfig;
 use Blockvis\Civic\Sip\Client;
+use Blockvis\Civic\Sip\UserData;
 
 /**
  * The public-facing functionality of the plugin.
@@ -81,22 +82,7 @@ class Civic_Sip_Public {
 		// Retrieve civic member data.
 		$user_data = $this->exchange_token( trim( $_POST['token'] ) );
 
-		if ( ! $this->settings()['wp_user_auth_enabled'] ) {
-			do_action( 'civic_auth', $user_data );
-			wp_send_json_success( [ 'logged_in' => true ] );
-		}
-
-		$email = $user_data->getByLabel( 'contact.personal.email' )->value();
-		/** @var WP_User $user */
-		$user = get_user_by( 'email', $email );
-		if ( $user === false ) {
-			ob_start();
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/civic-sip-registration-modal.php';
-			$modal = ob_get_clean();
-			wp_send_json_success( [ 'logged_in' => false, 'email' => $email, 'modal' => $modal ] );
-		}
-
-		$this->wp_login( $user );
+        do_action( 'civic_sip_auth', $user_data );
 	}
 
 	/**
@@ -128,7 +114,7 @@ class Civic_Sip_Public {
 		}
 
 		// Log in registered user automatically.
-		$this->wp_login( get_userdata( $user_id ) );
+		self::wp_login( get_userdata( $user_id ) );
 	}
 
 	/**
@@ -228,7 +214,7 @@ class Civic_Sip_Public {
 	 *
 	 * @return array
 	 */
-	private function settings() {
+	public function settings() {
 
 		return array_merge( $this->settings, get_option( $this->plugin_name . '-settings', array() ) );
 	}
@@ -264,11 +250,31 @@ class Civic_Sip_Public {
 	 *
 	 * @param WP_User $user
 	 */
-	private function wp_login( WP_User $user ) {
+	public static function wp_login( WP_User $user ) {
 
 		wp_set_current_user( $user->ID, $user->user_login );
 		wp_set_auth_cookie( $user->ID );
 		do_action( 'wp_login', $user->user_login );
 		wp_send_json_success( [ 'logged_in' => true ] );
+	}
+
+    /**
+     * @param UserData $user_data
+     *
+     * @return void
+     */
+    public static function sip_auth_handle(UserData $user_data)
+    {
+        $email = $user_data->getByLabel('contact.personal.email')->value();
+        /** @var WP_User $user */
+        $user = get_user_by('email', $email);
+        if ($user === false) {
+            ob_start();
+            require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/civic-sip-registration-modal.php';
+            $modal = ob_get_clean();
+            wp_send_json_success(['logged_in' => false, 'email' => $email, 'modal' => $modal]);
+        }
+
+        self::wp_login($user);
 	}
 }

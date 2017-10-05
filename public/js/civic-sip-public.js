@@ -57,7 +57,7 @@
                     document.location.reload(true);
                 } else if (response.data.logged_in == true) {
                     document.location.href = civic_ajax.redirect_url;
-                } else {
+                } else if (response.data.email && response.data.modal) {
                     $('body').addClass('civic-hit-the-lights civic-no-scroll');
                     var modal = $('div.civic-modal.civic-qrcode').addClass('civic-show');
                     modal.find('iframe').remove();
