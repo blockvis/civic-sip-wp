@@ -45,7 +45,11 @@ class Civic_Sip_Public {
 	private $version;
 
 	/**
-	 * @var array
+	 * Default settings.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      array $settings The default settings values.
 	 */
 	private $settings = [
 		'app_id'               => '',
@@ -60,13 +64,14 @@ class Civic_Sip_Public {
 	 *
 	 * @since    1.0.0
 	 *
-	 * @param      string $plugin_name The name of the plugin.
-	 * @param      string $version The version of this plugin.
+	 * @param    string $plugin_name The name of the plugin.
+	 * @param    string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
+
 	}
 
 	/**
@@ -82,7 +87,8 @@ class Civic_Sip_Public {
 		// Retrieve civic member data.
 		$user_data = $this->exchange_token( trim( $_POST['token'] ) );
 
-        do_action( 'civic_sip_auth', $user_data );
+		do_action( 'civic_sip_auth', $user_data );
+
 	}
 
 	/**
@@ -115,6 +121,7 @@ class Civic_Sip_Public {
 
 		// Log in registered user automatically.
 		self::wp_login( get_userdata( $user_id ) );
+
 	}
 
 	/**
@@ -150,6 +157,7 @@ class Civic_Sip_Public {
 		$html .= '</button>';
 
 		return $html;
+
 	}
 
 	/**
@@ -205,6 +213,7 @@ class Civic_Sip_Public {
 		}
 
 		return $user_data;
+
 	}
 
 	/**
@@ -215,7 +224,6 @@ class Civic_Sip_Public {
 	 * @return array
 	 */
 	public function settings() {
-
 		return array_merge( $this->settings, get_option( $this->plugin_name . '-settings', array() ) );
 	}
 
@@ -225,6 +233,7 @@ class Civic_Sip_Public {
 	 * @since    1.0.0
 	 */
 	private function enqueue_shortcode_assets() {
+
 		$settings = $this->settings();
 
 		// Civic App details.
@@ -241,10 +250,11 @@ class Civic_Sip_Public {
 
 		wp_enqueue_script( $this->plugin_name );
 		wp_enqueue_style( $this->plugin_name );
+
 	}
 
 	/**
-	 * Log existing WP user in.
+	 * Logs existing WP user in.
 	 *
 	 * @since    1.0.0
 	 *
@@ -256,25 +266,27 @@ class Civic_Sip_Public {
 		wp_set_auth_cookie( $user->ID );
 		do_action( 'wp_login', $user->user_login );
 		wp_send_json_success( [ 'logged_in' => true ] );
+
 	}
 
-    /**
-     * @param UserData $user_data
-     *
-     * @return void
-     */
-    public static function sip_auth_handle(UserData $user_data)
-    {
-        $email = $user_data->getByLabel('contact.personal.email')->value();
-        /** @var WP_User $user */
-        $user = get_user_by('email', $email);
-        if ($user === false) {
-            ob_start();
-            require_once plugin_dir_path(dirname(__FILE__)) . 'public/partials/civic-sip-registration-modal.php';
-            $modal = ob_get_clean();
-            wp_send_json_success(['logged_in' => false, 'email' => $email, 'modal' => $modal]);
-        }
+	/**
+	 * @param UserData $user_data
+	 *
+	 * @return void
+	 */
+	public static function sip_auth_handle( UserData $user_data ) {
 
-        self::wp_login($user);
+		$email = $user_data->getByLabel( 'contact.personal.email' )->value();
+		/** @var WP_User $user */
+		$user = get_user_by( 'email', $email );
+		if ( $user === false ) {
+			ob_start();
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/civic-sip-registration-modal.php';
+			$modal = ob_get_clean();
+			wp_send_json_success( [ 'logged_in' => false, 'email' => $email, 'modal' => $modal ] );
+		}
+
+		self::wp_login( $user );
+
 	}
 }

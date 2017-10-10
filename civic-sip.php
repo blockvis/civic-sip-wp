@@ -74,4 +74,5 @@ function run_civic_sip() {
 	$plugin->run();
 
 }
+
 run_civic_sip();

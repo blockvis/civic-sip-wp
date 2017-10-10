@@ -42,6 +42,4 @@ class Civic_Sip_i18n {
 
 	}
 
-
-
 }

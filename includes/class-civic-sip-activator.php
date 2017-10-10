@@ -23,9 +23,7 @@
 class Civic_Sip_Activator {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
+	 * Activates the plugin.
 	 *
 	 * @since    1.0.0
 	 */

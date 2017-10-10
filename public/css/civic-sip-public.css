@@ -52,6 +52,7 @@
         transform: rotate(360deg);
     }
 }
+
 @keyframes dash {
     0% {
         stroke-dasharray: 1, 200;
@@ -497,7 +498,6 @@ body.civic-no-scroll, html.civic-no-scroll {
 .civic-onboarding .civic-help-links a:hover {
     border-bottom: 1px solid #fff
 }
-
 
 .civic-button-a.outline, button.outline, input[type=button].outline, input[type=reset].outline, input[type=submit].outline {
     background: 0 0;
