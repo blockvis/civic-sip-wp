@@ -56,7 +56,7 @@ class Civic_Sip_Public {
 		'secret'               => '',
 		'pubkey'               => '',
 		'privkey'              => '',
-		'wp_user_auth_enabled' => '',
+		'wp_user_auth_enabled' => false,
 	];
 
 	/**
@@ -138,6 +138,11 @@ class Civic_Sip_Public {
 
 		// Do not render for logged in users.
 		if ( is_user_logged_in() ) {
+			return '';
+		}
+
+		// Do not render if not all settings provided.
+		if ( $this->has_empty_setting() ) {
 			return '';
 		}
 
@@ -228,6 +233,17 @@ class Civic_Sip_Public {
 	}
 
 	/**
+	 * Checks whether all settings are filled in.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return bool
+	 */
+	public function has_empty_setting() {
+		return in_array('' , $this->settings(), true);
+	}
+
+	/**
 	 * Adds scripts and styles required for shortcode render.
 	 *
 	 * @since    1.0.0
@@ -270,7 +286,12 @@ class Civic_Sip_Public {
 	}
 
 	/**
-	 * @param UserData $user_data
+	 * Implements default Civic QR auth flow.
+	 * Attempts to find a match by email address of a WP User. If a match is found, it uses WP API to log that user in.
+	 * If no match is found it shows the user a message and gives them the opportunity to confirm registering as a new
+	 * user on this WordPress site, or they can cancel.
+	 *
+	 * @param UserData $user_data Civic user data object.
 	 *
 	 * @return void
 	 */
