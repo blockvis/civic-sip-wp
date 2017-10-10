@@ -146,7 +146,7 @@ class Civic_Sip_Public {
 		], $atts );
 
 		$html = '<button class="js-civic-signup ' . esc_attr( $atts['class'] ) . '">';
-		$html .= esc_html__( 'Login with Civic', 'civic-sip' );
+		$html .= esc_html__( 'Sign In With Civic', 'civic-sip' );
 		$html .= '</button>';
 
 		return $html;
