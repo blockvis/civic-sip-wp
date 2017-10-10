@@ -56,24 +56,6 @@ class Civic_Sip_Admin {
 	}
 
 	/**
-	 * Register the stylesheets for the admin area.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_styles() {
-
-	}
-
-	/**
-	 * Register the JavaScript for the admin area.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_scripts() {
-
-	}
-
-	/**
 	 * @since 1.0.0
 	 */
 	public function register_settings_page() {
@@ -262,20 +244,19 @@ class Civic_Sip_Admin {
 	public function add_settings_section() {
 
 		?>
-		<p class="description">
+		<p>
 			<?php echo esc_html__(
 				'Allow users to securely login and register for your site using the Civic Secure Identity Platform.' .
 				' To get started, you will need to register with the Civic app and then use the app to log into the developer portal to obtain your App ID and API keys.',
 				'civic-sip' ); ?>
-		</p>
-		<p class="description">
+			<br>
 			<a href="https://www.civic.com/app"
 			   target="_blank"><?php echo esc_html__( 'Civic Signup', 'civic-sip' ); ?></a> |
 			<a href="https://sip-partners.civic.com/"
 			   target="_blank"><?php echo esc_html__( 'Partner Dev Portal', 'civic-sip' ); ?></a>
 		</p>
 		<h2>Integration Settings</h2>
-		<p class="description">
+		<p>
 			<?php printf( esc_html__(
 				'To gain approval to use of the Civic QR Auth on your public site, all of the following fields are required and will be managed through the %s. Please note: If any fields are left blank, the shortcode will not display anything on the frontend of your site.',
 				'civic-sip' ),
@@ -296,15 +277,14 @@ class Civic_Sip_Admin {
 	public function add_settings_auth_section() {
 
 		?>
-		<p class="description">
+		<p>
 			<?php echo esc_html__(
 				'A User signing in with Civic will result in JSON data about that user being returned to your site from Civic. If WP User Authentication is not activated, you will need to handle the response to successful Civic authentication with your own custom code.',
 				'civic-sip' ); ?>
 			<a href="https://docs.civic.com/" target="_blank">
 				<?php echo esc_html__( 'Documentation', 'civic-sip' ); ?>
 			</a>
-		</p>
-		<p class="description">
+			<br>
 			<?php echo esc_html__(
 				'When activated, upon successful QR code sign in, the User will be matched based on email address to a User in your WP database and logged in to your site. If no match is found, they will need to confirm being registered as a new User.',
 				'civic-sip' ); ?>
@@ -321,7 +301,7 @@ class Civic_Sip_Admin {
 	public function add_settings_shortcode_section() {
 
 		?>
-		<p class="description">
+		<p>
 			<?php printf( esc_html__(
 				'Use the shortcode %s in your WP content or templates to display the “Sign In With Civic” button.',
 				'civic-sip' ), '<strong>[civic-auth]</strong>' ); ?>

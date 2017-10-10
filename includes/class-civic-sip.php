@@ -163,9 +163,6 @@ class Civic_Sip {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'register_settings_page' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings' );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-
 	}
 
 	/**
