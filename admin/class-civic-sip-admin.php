@@ -325,6 +325,10 @@ class Civic_Sip_Admin {
 			<?php printf( esc_html__(
 				'Use the shortcode %s in your WP content or templates to display the “Sign In With Civic” button.',
 				'civic-sip' ), '<strong>[civic-auth]</strong>' ); ?>
+			<br>
+			<?php printf(esc_html__(
+				'If you like to style the button and want to add a custom CSS class you can use shortcode "class" parameter as following %s.',
+				'civic-sip' ), '<strong>[civic-auth class="your-custom-class"]</strong>'); ?>
 		</p>
 		<?php
 
