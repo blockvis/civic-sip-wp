@@ -4,71 +4,97 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Civic SIP 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civic-sip\n"
-"POT-Creation-Date: 2017-10-02 14:48:47+00:00\n"
+"POT-Creation-Date: 2017-10-10 15:13:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-10-02 15:00+00:00\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Blockvis <blockvis@blockvis.com>\n"
 "Language-Team: English <blockvis@blockvis.com>\n"
 
-#: admin/class-civic-sip-admin.php:83 admin/class-civic-sip-admin.php:84
+#: admin/class-civic-sip-admin.php:82
+msgid "Civic QR Auth Settings"
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:83
 msgid "Civic QR Auth"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:114
-msgid "Settings"
-msgstr ""
-
-#: admin/class-civic-sip-admin.php:121
+#: admin/class-civic-sip-admin.php:122
 msgid "App ID"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:132
-msgid "Public Signing Key "
-msgstr ""
-
-#: admin/class-civic-sip-admin.php:143
+#: admin/class-civic-sip-admin.php:133
 msgid "Private Signing Key"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:154
+#: admin/class-civic-sip-admin.php:144
+msgid "Public Signing Key "
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:156
 msgid "Secret"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:164
+#: admin/class-civic-sip-admin.php:174
 msgid "Enable WP User Authentication"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:218
+#: admin/class-civic-sip-admin.php:257
+msgid "Civic Signup"
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:259 admin/class-civic-sip-admin.php:267
+msgid "Partner Dev Portal"
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:263
 msgid ""
-"These values are obtained through our Partner Developer Portal once you have "
-"registered as a partner."
+"To gain approval to use of the Civic QR Auth on your public site, all of the "
+"following fields are required and will be managed through the %s. Please "
+"note: If any fields are left blank, the shortcode will not display anything "
+"on the frontend of your site."
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:221
-msgid "Please follow this link to register:"
+#: admin/class-civic-sip-admin.php:280
+msgid ""
+"A User signing in with Civic will result in JSON data about that user being "
+"returned to your site from Civic. If WP User Authentication is not "
+"activated, you will need to handle the response to successful Civic "
+"authentication with your own custom code."
 msgstr ""
 
-#. #-#-#-#-#  civic-sip.pot (Civic SIP 1.0.0)  #-#-#-#-#
-#. Plugin Name of the plugin/theme
-#: admin/class-civic-sip-admin.php:223
-msgid "Civic SIP"
+#: admin/class-civic-sip-admin.php:284
+msgid "Documentation"
 msgstr ""
 
-#: public/class-civic-sip-public.php:127
+#: admin/class-civic-sip-admin.php:288
+msgid ""
+"When activated, upon successful QR code sign in, the User will be matched "
+"based on email address to a User in your WP database and logged in to your "
+"site. If no match is found, they will need to confirm being registered as a "
+"new User."
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:301
+msgid ""
+"Use the shortcode %s in your WP content or templates to display the “Sign In "
+"With Civic” button."
+msgstr ""
+
+#: public/class-civic-sip-public.php:112
 msgid "Civic SIP registration failed."
 msgstr ""
 
-#: public/class-civic-sip-public.php:164
+#: public/class-civic-sip-public.php:149
 msgid "Login with Civic"
 msgstr ""
 
-#: public/class-civic-sip-public.php:214
+#: public/class-civic-sip-public.php:199
 msgid "Civic SIP authorization failed."
 msgstr ""
 
-#: public/class-civic-sip-public.php:219
+#: public/class-civic-sip-public.php:204
 msgid "Invalid civic member email."
 msgstr ""
 
@@ -84,6 +110,10 @@ msgstr ""
 
 #: public/partials/civic-sip-registration-modal.php:11
 msgid "Cancel"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Civic SIP"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
