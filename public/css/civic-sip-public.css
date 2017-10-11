@@ -412,6 +412,7 @@ body.civic-no-scroll, html.civic-no-scroll {
     font-size: 24px;
     font-weight: 400;
     color: #fff;
+    margin-top: 0;
     padding-top: 30px;
     line-height: 1.5
 }
