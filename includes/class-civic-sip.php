@@ -191,8 +191,11 @@ class Civic_Sip {
 		$this->loader->add_action( 'login_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 		// Register 'civic-auth' shortcode.
-		$this->loader->add_shortcode( 'civic-auth', $plugin_public, 'render_civic_auth_shortcode' );
+		$this->loader->add_shortcode( 'civic-auth', $plugin_public, 'civic_auth_button' );
 
+		// Add auth button to WP login/registration forms.
+		$this->loader->add_action( 'login_form', $plugin_public, 'render_civic_auth_button' );
+		$this->loader->add_action( 'register_form', $plugin_public, 'render_civic_auth_button' );
 	}
 
 	/**

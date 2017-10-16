@@ -125,7 +125,7 @@ class Civic_Sip_Public {
 	}
 
 	/**
-	 * Renders Shortcode for Civic Auth button.
+	 * Returns Civic Auth button markup.
 	 *
 	 * @since    1.0.0
 	 *
@@ -134,7 +134,7 @@ class Civic_Sip_Public {
 	 * @return string
 	 *
 	 */
-	public function render_civic_auth_shortcode( $atts = [] ) {
+	public function civic_auth_button( $atts = [] ) {
 
 		// Do not render for logged in users.
 		if ( is_user_logged_in() ) {
@@ -157,12 +157,23 @@ class Civic_Sip_Public {
 			'class' => '',
 		], $atts );
 
-		$html = '<button class="js-civic-signup ' . esc_attr( $atts['class'] ) . '">';
-		$html .= esc_html__( 'Sign In With Civic', 'civic-sip' );
-		$html .= '</button>';
+		ob_start();
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/civic-sip-auth-button.php';
 
-		return $html;
+		return ob_get_clean();
+	}
 
+
+	/**
+	 * Renders Civic Auth button.
+	 *
+	 * @since    1.1.0
+	 *
+	 * @return string
+	 *
+	 */
+	public function render_civic_auth_button() {
+		echo sprintf( '<p class="civic-auth-button-container">%s</p>', do_shortcode( '[civic-auth]' ) );
 	}
 
 	/**
@@ -240,7 +251,7 @@ class Civic_Sip_Public {
 	 * @return bool
 	 */
 	public function has_empty_setting() {
-		return in_array('' , $this->settings(), true);
+		return in_array( '', $this->settings(), true );
 	}
 
 	/**
@@ -301,10 +312,15 @@ class Civic_Sip_Public {
 		/** @var WP_User $user */
 		$user = get_user_by( 'email', $email );
 		if ( $user === false ) {
+			$response = [ 'logged_in' => false];
+			if ( get_option( 'users_can_register' ) ) {
+				$response['email'] = $email;
+			}
 			ob_start();
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/civic-sip-registration-modal.php';
-			$modal = ob_get_clean();
-			wp_send_json_success( [ 'logged_in' => false, 'email' => $email, 'modal' => $modal ] );
+			$response['modal'] = ob_get_clean();
+
+			wp_send_json_success( $response );
 		}
 
 		self::wp_login( $user );

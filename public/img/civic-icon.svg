@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg4"
+   role="img"
+   version="1.1"
+   viewBox="0 0 160 160"
+   height="160"
+   width="160"
+   className="svg-civic-icon">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8" />
+  <path
+     style="fill:#ffffff"
+     id="path2"
+     d="M88.229375,86.2274355 C94.4595702,83.1794975 98.75,76.778485 98.75,69.3750625 C98.75,59.0194375 90.355625,50.6250625 80,50.6250625 C69.644375,50.6250625 61.25,59.0194375 61.25,69.3750625 C61.25,76.7787325 65.5407168,83.1799256 71.77125,86.2277412 L71.77125,109.375 L88.229375,109.375 L88.229375,86.2274355 Z M80,140 C46.915625,140 20,113.084375 20,80 C20,46.915625 46.915625,20 80,20 C106.99875,20 129.88625,37.92625 137.394375,62.5 L158.075,62.5 C150.093125,26.735 118.170625,0 80,0 C35.816875,0 0,35.8175 0,80 C0,124.1825 35.816875,160 80,160 C118.170625,160 150.093125,133.265 158.075,97.5 L137.394375,97.5 C129.88625,122.07375 106.99875,140 80,140 Z" />
+</svg>
