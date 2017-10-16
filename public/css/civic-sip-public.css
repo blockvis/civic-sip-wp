@@ -75,28 +75,24 @@
     background-image: url(../img/background-gradient.svg)
 }
 
-a:active, a:hover, a:visited {
-    outline: 0
-}
-
 .civic-onboarding button {
     user-select: none
 }
 
 @media (max-width: 767px) {
-    .civic-button-a.medium, button.medium, input[type=button].medium, input[type=reset].medium, input[type=submit].medium {
+    .civic-button-a.medium{
         width: 100%;
         max-width: 320px
     }
 }
 
-.civic-button-a.medium, button.medium, input[type=button].medium, input[type=reset].medium, input[type=submit].medium {
+.civic-button-container button.medium {
     min-width: 200px;
     height: 48px;
     padding: 0 32px
 }
 
-.civic-onboarding .civic-button-a, .civic-onboarding button, .civic-onboarding input[type=button], .civic-onboarding input[type=reset], .civic-onboarding input[type=submit] {
+.civic-onboarding button {
     -moz-appearance: none;
     -webkit-appearance: none;
     -moz-user-select: -moz-none;
@@ -130,12 +126,6 @@ a:active, a:hover, a:visited {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box
-}
-
-.civic-onboarding h3 {
-    color: #fff;
-    font-weight: 600;
-    font-size: 24px
 }
 
 .civic-onboarding a {
@@ -244,11 +234,6 @@ body.civic-hit-the-lights .zEWidget-launcher, html.civic-hit-the-lights .zEWidge
         opacity: .35;
         visibility: visible
     }
-}
-
-body.civic-info-party .civic-lights-out, html.civic-info-party .civic-lights-out {
-    opacity: .35;
-    visibility: visible
 }
 
 @media (max-width: 767px) {
@@ -481,10 +466,6 @@ body.civic-no-scroll, html.civic-no-scroll {
     display: table
 }
 
-.civic-onboarding .civic-help-links.additional {
-    margin-top: 32px
-}
-
 .civic-onboarding .civic-help-links a {
     display: inline-block;
     font-size: 17px;
@@ -500,45 +481,17 @@ body.civic-no-scroll, html.civic-no-scroll {
     border-bottom: 1px solid #fff
 }
 
-.civic-button-a.outline, button.outline, input[type=button].outline, input[type=reset].outline, input[type=submit].outline {
+.civic-button-container button.outline {
     background: 0 0;
     border: 2px solid #fff
 }
 
-.civic-button-a.outline:hover, button.outline:hover, input[type=button].outline:hover, input[type=reset].outline:hover, input[type=submit].outline:hover {
+.civic-button-container button.outline:hover {
     color: #3fa692;
     background: #fff
 }
 
-.civic-button-a.outline.green, button.outline.green, input[type=button].outline.green, input[type=reset].outline.green, input[type=submit].outline.green {
-    color: #3ab03e;
-    border: 2px solid #3ab03e
-}
-
-.civic-button-a.outline.green:hover, button.outline.green:hover, input[type=button].outline.green:hover, input[type=reset].outline.green:hover, input[type=submit].outline.green:hover {
-    color: #fff;
-    background: #3ab03e
-}
-
-.civic-button-a.outline.secondary, button.outline.secondary, input[type=button].outline.secondary, input[type=reset].outline.secondary, input[type=submit].outline.secondary {
-    color: #868787;
-    border: 2px solid #c5c5c6
-}
-
-.civic-button-a.outline.secondary:hover, button.outline.secondary:hover, input[type=button].outline.secondary:hover, input[type=reset].outline.secondary:hover, input[type=submit].outline.secondary:hover {
-    color: #fff;
-    background: #c5c5c6
-}
-
-.civic-button-a.outline.disabled:hover, .civic-button-a.outline:disabled:hover, button.outline.disabled:hover, button.outline:disabled:hover, input[type=button].outline.disabled:hover, input[type=button].outline:disabled:hover, input[type=reset].outline.disabled:hover, input[type=reset].outline:disabled:hover, input[type=submit].outline.disabled:hover, input[type=submit].outline:disabled:hover {
+.civic-button-container button.outline.disabled:hover {
     color: #fff;
     background: 0 0
-}
-
-@media (max-width: 767px) {
-    .civic-onboarding .alt-choice button.outline:hover {
-        -moz-box-shadow: none;
-        -webkit-box-shadow: none;
-        box-shadow: none
-    }
 }
