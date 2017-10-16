@@ -57,6 +57,7 @@ class Civic_Sip_Public {
 		'pubkey'               => '',
 		'privkey'              => '',
 		'wp_user_auth_enabled' => false,
+		'wp_user_registration_enabled' => false,
 	];
 
 	/**

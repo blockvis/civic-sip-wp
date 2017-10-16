@@ -165,6 +165,17 @@ class Civic_Sip_Admin {
 			]
 		);
 
+		add_settings_field(
+			'wp_user_registration_enabled',
+			__( 'Enable WP User Registration', 'civic-sip' ),
+			[ $this, 'add_settings_field_single_checkbox' ],
+			$this->plugin_name . '-settings',
+			$this->plugin_name . '-settings-auth-section',
+			[
+				'value_for' => 'wp_user_registration_enabled',
+			]
+		);
+
 		add_settings_section(
 			$this->plugin_name . '-settings-shortcode-section',
 			'Short Code',
@@ -311,6 +322,69 @@ class Civic_Sip_Admin {
 				'civic-sip' ), '<strong>[civic-auth class="your-custom-class"]</strong>'); ?>
 		</p>
 		<?php
+
+	}
+
+	/**
+	 * Deactivates plugin
+	 *
+	 * @since 1.1.0
+	 */
+	public function deactivate() {
+
+		deactivate_plugins( $this->plugin_name );
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
+
+	}
+
+	/**
+	 * Render admin notice to version requirements mismatch
+	 *
+	 * @since 1.1.0
+	 */
+	public function version_notice() {
+
+		$this->render_notice(
+			sprintf(
+				__(
+					'<strong>Civic SIP</strong> plugin requires at least WordPress %1$s and PHP %2$s.' .
+					' You are currently running WordPress %3$s and PHP %4$s.' .
+					' Please upgrade to activate the plugin.'
+				),
+				'4.0',
+				'5.6',
+				get_bloginfo( 'version' ),
+				PHP_VERSION
+			)
+		);
+	}
+
+	/**
+	 * Render admin notice to require GMP extension
+	 *
+	 * @since 1.1.0
+	 */
+	public function gmp_notice() {
+
+		$this->render_notice(
+			__(
+				'<strong>Civic SIP</strong> plugin requires GMP php extension to run.' .
+				' Please install and enable ext-gmp to activate the plugin.'
+			)
+		);
+
+	}
+
+	/**
+	 * @param $message
+	 *
+	 * @return void
+	 */
+	private function render_notice( $message ) {
+
+		printf( '<div class="error"><p>%s</p></div>', $message );
 
 	}
 
