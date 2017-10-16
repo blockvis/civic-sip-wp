@@ -15,6 +15,8 @@ Civic Secure Identity Platform (SIP) authorization plugin. Sign in to your blog 
 
 Allow users to securely login and register for your site using the <a href="https://www.civic.com/secure-identity-platform">Civic Secure Identity Platform</a>. To get started, you will need to register with the <a href="https://www.civic.com/app">Civic app</a> and then use the app to log into the <a href="https://sip-partners.civic.com/">developer portal</a> to obtain your App ID and API keys.
 
+Note: This plugin requires that the php-gmp extension is installed on your WordPress server.
+
 == Installation ==
 
 1. Unzip the archive to the `/wp-content/plugins/` directory.
