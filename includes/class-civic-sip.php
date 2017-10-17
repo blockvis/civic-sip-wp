@@ -67,8 +67,8 @@ class Civic_Sip {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'PLUGIN_VERSION' ) ) {
-			$this->version = PLUGIN_VERSION;
+		if ( defined( 'CIVIC_SIP_PLUGIN_VERSION' ) ) {
+			$this->version = CIVIC_SIP_PLUGIN_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
@@ -76,10 +76,10 @@ class Civic_Sip {
 
 		$this->load_dependencies();
 		$this->set_locale();
-        if ( $this->check_requirements() ) {
-            $this->define_admin_hooks();
-            $this->define_public_hooks();
-        }
+		if ( $this->check_requirements() ) {
+			$this->define_admin_hooks();
+			$this->define_public_hooks();
+		}
 
 	}
 
@@ -150,34 +150,34 @@ class Civic_Sip {
 
 	}
 
-    /**
-     * Checks system requirements. Returns true if can run the plugin.
-     *
-     * @return bool
-     */
+	/**
+	 * Checks system requirements. Returns true if can run the plugin.
+	 *
+	 * @return bool
+	 */
 	private function check_requirements() {
 
-	    // Check against minimum PHP and WordPress version
-        if ( version_compare( PHP_VERSION, '5.6', '<' )
-             || version_compare(  get_bloginfo( 'version' ), '4.0', '<' ) ) {
-            $plugin_admin = new Civic_Sip_Admin( $this->get_plugin_name(), $this->get_version() );
-            $this->loader->add_action( 'admin_init', $plugin_admin, 'deactivate' );
-            $this->loader->add_action( 'admin_notices', $plugin_admin, 'version_notice' );
+		// Check against minimum PHP and WordPress version
+		if ( version_compare( PHP_VERSION, '5.6', '<' )
+			 || version_compare(  get_bloginfo( 'version' ), '4.0', '<' ) ) {
+			$plugin_admin = new Civic_Sip_Admin( $this->get_plugin_name(), $this->get_version() );
+			$this->loader->add_action( 'admin_init', $plugin_admin, 'deactivate' );
+			$this->loader->add_action( 'admin_notices', $plugin_admin, 'version_notice' );
 
-            return false;
-        }
+			return false;
+		}
 
-        // Make sure GMP extension is installed and enabled
-        if ( !extension_loaded('gmp') ) {
-            $plugin_admin = new Civic_Sip_Admin( $this->get_plugin_name(), $this->get_version() );
-            $this->loader->add_action( 'admin_init', $plugin_admin, 'deactivate' );
-            $this->loader->add_action( 'admin_notices', $plugin_admin, 'gmp_notice' );
+		// Make sure GMP extension is installed and enabled
+		if ( !extension_loaded('gmp') ) {
+			$plugin_admin = new Civic_Sip_Admin( $this->get_plugin_name(), $this->get_version() );
+			$this->loader->add_action( 'admin_init', $plugin_admin, 'deactivate' );
+			$this->loader->add_action( 'admin_notices', $plugin_admin, 'gmp_notice' );
 
-            return false;
-        }
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
 	/**
 	 * Register all of the hooks related to the admin area functionality
@@ -225,8 +225,8 @@ class Civic_Sip {
 		$this->loader->add_shortcode( 'civic-auth', $plugin_public, 'civic_auth_button' );
 
 		// Add auth button to WP login/registration forms.
-		$this->loader->add_action( 'login_form', $plugin_public, 'render_civic_auth_button' );
-		if ( $plugin_public->settings()['wp_user_registration_enabled'] ) {
+		if ( $plugin_public->settings()['show_civic_button'] ) {
+			$this->loader->add_action( 'login_form', $plugin_public, 'render_civic_auth_button' );
 			$this->loader->add_action( 'register_form', $plugin_public, 'render_civic_auth_button' );
 		}
 	}

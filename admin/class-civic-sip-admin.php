@@ -166,13 +166,13 @@ class Civic_Sip_Admin {
 		);
 
 		add_settings_field(
-			'wp_user_registration_enabled',
-			__( 'Enable WP User Registration', 'civic-sip' ),
+			'show_civic_button',
+			__( 'Show Civic Sign In Button', 'civic-sip' ),
 			[ $this, 'add_settings_field_single_checkbox' ],
 			$this->plugin_name . '-settings',
 			$this->plugin_name . '-settings-auth-section',
 			[
-				'value_for' => 'wp_user_registration_enabled',
+				'value_for' => 'show_civic_button',
 			]
 		);
 
@@ -332,7 +332,7 @@ class Civic_Sip_Admin {
 	 */
 	public function deactivate() {
 
-		deactivate_plugins( $this->plugin_name );
+		deactivate_plugins( 'civic-sip/civic-sip.php' );
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );
 		}
