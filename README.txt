@@ -17,6 +17,8 @@ Allow users to securely login and register for your site using the <a href="http
 
 Note: This plugin requires that the <a href="http://php.net/manual/en/book.gmp.php">php-gmp extension</a> is installed on your WordPress server. PHP version 5.6 or 7.x is required.
 
+The latest source code and development progress is available at <a href="https://github.com/blockvis/civic-sip-wp">github</a>.
+
 == Installation ==
 
 1. Unzip the archive to the `/wp-content/plugins/` directory.
