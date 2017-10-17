@@ -102,6 +102,12 @@ class Civic_Sip_Public {
 		// Check the nonce first.
 		check_ajax_referer( 'civic', 'nonce' );
 
+		if ( ! get_option( 'users_can_register' ) ) {
+			wp_send_json_error(
+				new WP_Error( 'civic_sip_registration_forbidden', __( 'Civic SIP registration is disabled.', 'civic-sip' ) )
+			);
+		}
+
 		$email = $_POST['email'];
 
 		//var_dump($email); die;
