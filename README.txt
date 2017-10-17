@@ -15,7 +15,7 @@ Civic Secure Identity Platform (SIP) authorization plugin. Sign in to your blog 
 
 Allow users to securely login and register for your site using the <a href="https://www.civic.com/secure-identity-platform">Civic Secure Identity Platform</a>. To get started, you will need to register with the <a href="https://www.civic.com/app">Civic app</a> and then use the app to log into the <a href="https://sip-partners.civic.com/">developer portal</a> to obtain your App ID and API keys.
 
-Note: This plugin requires that the php-gmp extension is installed on your WordPress server.
+Note: This plugin requires that the <a href="http://php.net/manual/en/book.gmp.php">php-gmp extension</a> is installed on your WordPress server. PHP version 5.6 or 7.x is required.
 
 == Installation ==
 
@@ -27,8 +27,13 @@ Note: This plugin requires that the php-gmp extension is installed on your WordP
 == Screenshots ==
 
 1. Settings page.
+2. Login form
 
 == Changelog ==
+
+= 1.1.1 =
+
+* Fix: Civic modal pop up is not showing when Enter is pressed.
 
 = 1.1.0 =
 

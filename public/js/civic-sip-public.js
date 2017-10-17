@@ -3,7 +3,7 @@
 
 	var civicSip = new civic.sip( { appId: civic_app.id } );
 	// Start scope request.
-	$( 'button.js-civic-signup' ).click( function ( event ) {
+    $('.js-civic-signup').click(function (event) {
 		event.preventDefault();
 		civicSip.signup( { style: 'popup', scopeRequest: civicSip.ScopeRequests.BASIC_SIGNUP } );
 		var modal = $( 'div.civic-modal.civic-qrcode' );
