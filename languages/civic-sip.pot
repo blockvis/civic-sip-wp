@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Civic SIP package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Civic SIP 1.0.0\n"
+"Project-Id-Version: Civic SIP 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civic-sip\n"
-"POT-Creation-Date: 2017-10-10 19:55:30+00:00\n"
+"POT-Creation-Date: 2017-10-17 09:54:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,43 +12,47 @@ msgstr ""
 "Last-Translator: Blockvis <blockvis@blockvis.com>\n"
 "Language-Team: English <blockvis@blockvis.com>\n"
 
-#: admin/class-civic-sip-admin.php:82
+#: admin/class-civic-sip-admin.php:64
 msgid "Civic QR Auth Settings"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:83
+#: admin/class-civic-sip-admin.php:65
 msgid "Civic QR Auth"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:125
+#: admin/class-civic-sip-admin.php:107
 msgid "App ID"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:136
+#: admin/class-civic-sip-admin.php:118
 msgid "Private Signing Key"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:147
+#: admin/class-civic-sip-admin.php:129
 msgid "Public Signing Key "
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:159
+#: admin/class-civic-sip-admin.php:141
 msgid "Secret"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:177
+#: admin/class-civic-sip-admin.php:159
 msgid "Enable WP User Authentication"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:273
+#: admin/class-civic-sip-admin.php:170
+msgid "Show Civic Sign In Button"
+msgstr ""
+
+#: admin/class-civic-sip-admin.php:265
 msgid "Civic Signup"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:275 admin/class-civic-sip-admin.php:283
+#: admin/class-civic-sip-admin.php:267 admin/class-civic-sip-admin.php:275
 msgid "Partner Dev Portal"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:279
+#: admin/class-civic-sip-admin.php:271
 msgid ""
 "To gain approval to use of the Civic QR Auth on your public site, all of the "
 "following fields are required and will be managed through the %s. Please "
@@ -56,7 +60,7 @@ msgid ""
 "on the frontend of your site."
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:300
+#: admin/class-civic-sip-admin.php:292
 msgid ""
 "A User signing in with Civic will result in JSON data about that user being "
 "returned to your site from Civic. If WP User Authentication is not "
@@ -64,11 +68,11 @@ msgid ""
 "authentication with your own custom code."
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:304
+#: admin/class-civic-sip-admin.php:296
 msgid "Documentation"
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:308
+#: admin/class-civic-sip-admin.php:299
 msgid ""
 "When activated, upon successful QR code sign in, the User will be matched "
 "based on email address to a User in your WP database and logged in to your "
@@ -76,45 +80,53 @@ msgid ""
 "new User."
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:325
+#: admin/class-civic-sip-admin.php:316
 msgid ""
 "Use the shortcode %s in your WP content or templates to display the “Sign In "
 "With Civic” button."
 msgstr ""
 
-#: admin/class-civic-sip-admin.php:329
+#: admin/class-civic-sip-admin.php:320
 msgid ""
 "If you like to style the button and want to add a custom CSS class you can "
 "use shortcode \"class\" parameter as following %s."
 msgstr ""
 
-#: public/class-civic-sip-public.php:118
+#: public/class-civic-sip-public.php:107
+msgid "Civic SIP registration is disabled."
+msgstr ""
+
+#: public/class-civic-sip-public.php:125
 msgid "Civic SIP registration failed."
 msgstr ""
 
-#: public/class-civic-sip-public.php:161
-msgid "Sign In With Civic"
-msgstr ""
-
-#: public/class-civic-sip-public.php:212
+#: public/class-civic-sip-public.php:230
 msgid "Civic SIP authorization failed."
 msgstr ""
 
-#: public/class-civic-sip-public.php:217
+#: public/class-civic-sip-public.php:235
 msgid "Invalid civic member email."
 msgstr ""
 
-#: public/partials/civic-sip-registration-modal.php:4
+#: public/partials/civic-sip-auth-button.php:2
+msgid "Sign In With Civic"
+msgstr ""
+
+#: public/partials/civic-sip-registration-modal.php:5
+msgid "User registration is currently not allowed."
+msgstr ""
+
+#: public/partials/civic-sip-registration-modal.php:7
 msgid ""
 "It looks like you are new to this site. <br>\n"
 "                Do you want to register as %s?"
 msgstr ""
 
-#: public/partials/civic-sip-registration-modal.php:8
+#: public/partials/civic-sip-registration-modal.php:13
 msgid "Register"
 msgstr ""
 
-#: public/partials/civic-sip-registration-modal.php:11
+#: public/partials/civic-sip-registration-modal.php:17
 msgid "Cancel"
 msgstr ""
 
