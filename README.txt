@@ -30,6 +30,12 @@ Note: This plugin requires that the php-gmp extension is installed on your WordP
 
 == Changelog ==
 
+= 1.1.0 =
+
+* Show/hide "Sign in With Civic" button option added.
+* Login flow now respects "Anyone can register" setting.
+* Added system requirements check for PHP and WP version. Also php-gmp extension is checked.
+
 = 1.0.0 =
 
 * Initial release.
