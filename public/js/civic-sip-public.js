@@ -48,7 +48,8 @@
 			data: {
 				'action': 'civic_auth',
 				'nonce': civic_ajax.nonce,
-				'token': jwtToken
+                'token': jwtToken,
+                'rememberme': $('input[name=rememberme]').val()
 			},
 			success: function ( response ) {
 				if ( response == 0 ) {

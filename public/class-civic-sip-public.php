@@ -66,7 +66,7 @@ class Civic_Sip_Public {
 	 * @since    1.0.0
 	 *
 	 * @param    string $plugin_name The name of the plugin.
-	 * @param    string $version     The version of this plugin.
+	 * @param    string $version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -293,11 +293,14 @@ class Civic_Sip_Public {
 	 * @since    1.0.0
 	 *
 	 * @param WP_User $user
+	 * @param bool $remember
+	 * @param string $secure
+	 * @param string $token
 	 */
-	public static function wp_login( WP_User $user ) {
+	public static function wp_login( WP_User $user, $remember = false, $secure = '', $token = '' ) {
 
 		wp_set_current_user( $user->ID, $user->user_login );
-		wp_set_auth_cookie( $user->ID );
+		wp_set_auth_cookie( $user->ID, $remember, $secure, $token );
 		do_action( 'wp_login', $user->user_login );
 		wp_send_json_success( [ 'logged_in' => true ] );
 
@@ -319,7 +322,7 @@ class Civic_Sip_Public {
 		/** @var WP_User $user */
 		$user = get_user_by( 'email', $email );
 		if ( $user === false ) {
-			$response = [ 'logged_in' => false];
+			$response = [ 'logged_in' => false ];
 			if ( get_option( 'users_can_register' ) ) {
 				$response['email'] = $email;
 			}
@@ -330,7 +333,7 @@ class Civic_Sip_Public {
 			wp_send_json_success( $response );
 		}
 
-		self::wp_login( $user );
+		self::wp_login( $user, ! empty( $_POST['rememberme'] ) );
 
 	}
 }
