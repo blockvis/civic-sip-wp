@@ -66,7 +66,7 @@ class Civic_Sip_Public {
 	 * @since    1.0.0
 	 *
 	 * @param    string $plugin_name The name of the plugin.
-	 * @param    string $version The version of this plugin.
+	 * @param    string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -278,7 +278,7 @@ class Civic_Sip_Public {
 		// Civic auth AJAX endpoint params.
 		wp_localize_script( $this->plugin_name, 'civic_ajax', [
 			'url'          => admin_url( 'admin-ajax.php' ),
-			'redirect_url' => home_url(),
+			'redirect_url' => isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : admin_url(),
 			'nonce'        => wp_create_nonce( 'civic' ),
 		] );
 
@@ -293,9 +293,9 @@ class Civic_Sip_Public {
 	 * @since    1.0.0
 	 *
 	 * @param WP_User $user
-	 * @param bool $remember
-	 * @param string $secure
-	 * @param string $token
+	 * @param bool    $remember
+	 * @param string  $secure
+	 * @param string  $token
 	 */
 	public static function wp_login( WP_User $user, $remember = false, $secure = '', $token = '' ) {
 
