@@ -110,14 +110,13 @@ class Civic_Sip_Public {
 
 		$email = $_POST['email'];
 
-		//var_dump($email); die;
 		$username = explode( '@', $email )[0];
 		while ( username_exists( $username ) ) {
 			$username .= mt_rand( 11, 99 );
 		}
 
-		// Attempt to generate the user and get the user id.
-		$user_id = wp_create_user( $username, wp_generate_password(), $email );
+		// Attempt to register the user and get the user id.
+		$user_id = register_new_user($username, $email);
 
 		// Check if the user was actually created.
 		if ( is_wp_error( $user_id ) ) {

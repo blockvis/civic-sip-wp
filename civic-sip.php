@@ -16,7 +16,7 @@
  * Plugin Name:       Civic SIP
  * Plugin URI:        https://github.com/blockvis/civic-sip-wp
  * Description:       Civic Secure Identity Platform (SIP) authorization plugin. Sign in to your blog using Civic Mobile App.
- * Version:           1.1.1
+ * Version:           1.1.2
  * Author:            Blockvis
  * Author URI:        https://blockvis.com
  * License:           GPL-2.0+
@@ -30,7 +30,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'CIVIC_SIP_PLUGIN_VERSION', '1.1.1' );
+define( 'CIVIC_SIP_PLUGIN_VERSION', '1.1.2' );
 
 /**
  * The code that runs during plugin activation.
