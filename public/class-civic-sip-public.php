@@ -298,9 +298,10 @@ class Civic_Sip_Public {
 	 */
 	public static function wp_login( WP_User $user, $remember = false, $secure = '', $token = '' ) {
 
+		wp_clear_auth_cookie();
 		wp_set_current_user( $user->ID, $user->user_login );
 		wp_set_auth_cookie( $user->ID, $remember, $secure, $token );
-		do_action( 'wp_login', $user->user_login );
+		do_action( 'wp_login', $user->user_login, $user );
 		wp_send_json_success( [ 'logged_in' => true ] );
 
 	}

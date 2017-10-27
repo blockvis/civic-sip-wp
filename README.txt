@@ -43,6 +43,10 @@ If you see some important functionality is missing, feel free to open an issue o
 
 == Changelog ==
 
+= 1.1.3 =
+* Auth cookies are cleared before login.
+* 3rd argument added to `wp_login` action call.
+
 = 1.1.2 =
 * The intended URL is respected now. User is redirected to desired page after successful login.
 * The login flow now respects 'Remember me' checkbox state and sets the corresponding cookie expiration correctly.
