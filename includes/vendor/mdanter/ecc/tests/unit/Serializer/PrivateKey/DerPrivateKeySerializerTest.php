@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Serializer\PrivateKey;
 
@@ -18,7 +19,7 @@ class DerPrivateKeySerializerTest extends AbstractTestCase
 {
     public function testReadsDer()
     {
-        $der = base64_decode(file_get_contents(__DIR__ . "/../../../data/openssl-priv.key"));
+        $der = file_get_contents(__DIR__ . "/../../../data/openssl-secp256r1.1.der");
         $adapter = EccFactory::getAdapter();
         $derPrivSerializer = new DerPrivateKeySerializer($adapter);
         $key = $derPrivSerializer->parse($der);
@@ -31,7 +32,7 @@ class DerPrivateKeySerializerTest extends AbstractTestCase
         $G = EccFactory::getNistCurves($adapter)->generator192();
         $key = $G->createPrivateKey();
 
-        $derPrivSerializer = new DerPrivateKeySerializer($adapter);
+        $derPrivSerializer = new DerPrivateKeySerializer($adapter, new DerPublicKeySerializer());
         $serialized = $derPrivSerializer->serialize($key);
         $parsed = $derPrivSerializer->parse($serialized);
         $this->assertTrue($adapter->equals($parsed->getSecret(), $key->getSecret()));
@@ -48,7 +49,7 @@ class DerPrivateKeySerializerTest extends AbstractTestCase
         $key = $G->createPrivateKey();
 
         $derPubSerializer = new DerPublicKeySerializer();
-        $derPrivSerializer = new DerPrivateKeySerializer();
+        $derPrivSerializer = new DerPrivateKeySerializer($adapter, $derPubSerializer);
 
         // I don't actually have a case of a non-v1 key - just substitute self::VERSION with 2
         $privateKeyInfo = new Sequence(

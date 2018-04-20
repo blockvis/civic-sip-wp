@@ -1,27 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests;
 
 use Mdanter\Ecc\Math\MathAdapterFactory;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
+abstract class AbstractTestCase extends TestCase
 {
-
-    /**
-     * @var string
-     */
-    public $classPointInterface = 'Mdanter\Ecc\Primitives\PointInterface';
-
-    /**
-     * @var string
-     */
-    public $classCurveFpInterface = 'Mdanter\Ecc\Primitives\CurveFpInterface';
-
-    /**
-     * @var string
-     */
-    public $classRngInterface = '\Mdanter\Ecc\Random\RandomNumberGeneratorInterface';
-
     /**
      * @param array $extra
      * @return array

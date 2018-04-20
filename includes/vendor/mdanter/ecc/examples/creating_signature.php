@@ -1,7 +1,8 @@
 <?php
 
-require "../vendor/autoload.php";
+require __DIR__ . "/../vendor/autoload.php";
 
+use Mdanter\Ecc\Crypto\Signature\SignHasher;
 use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Crypto\Signature\Signer;
 use Mdanter\Ecc\Serializer\PrivateKey\PemPrivateKeySerializer;
@@ -18,23 +19,26 @@ $algorithm = 'sha256';
 
 ## You'll be restoring from a key, as opposed to generating one.
 $pemSerializer = new PemPrivateKeySerializer(new DerPrivateKeySerializer($adapter));
-$keyData = file_get_contents('../tests/data/openssl-priv.pem');
+$keyData = file_get_contents(__DIR__ . '/../tests/data/openssl-secp256r1.pem');
 $key = $pemSerializer->parse($keyData);
 
 $document = 'I am writing today...';
 
-$signer = new Signer($adapter);
-$hash = $signer->hashData($generator, $algorithm, $document);
+$hasher = new SignHasher($algorithm, $adapter);
+$hash = $hasher->makeHash($document, $generator);
 
-# Derandomized signatures are not necessary, but can reduce
-# the attack surface for a private key that is to be used often.
+# Derandomized signatures are not necessary, but is avoids
+# the risk of a low entropy RNG, causing accidental reuse
+# of a k value for a different message, which leaks the
+# private key.
 if ($useDerandomizedSignatures) {
     $random = \Mdanter\Ecc\Random\RandomGeneratorFactory::getHmacRandomGenerator($key, $hash, $algorithm);
 } else {
     $random = \Mdanter\Ecc\Random\RandomGeneratorFactory::getRandomGenerator();
 }
-
 $randomK = $random->generate($generator->getOrder());
+
+$signer = new Signer($adapter);
 $signature = $signer->sign($key, $hash, $randomK);
 
 $serializer = new DerSignatureSerializer();

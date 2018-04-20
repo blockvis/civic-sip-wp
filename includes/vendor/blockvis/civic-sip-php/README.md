@@ -1,5 +1,4 @@
 # civic-sip-php
-**Beware! The library is in development. Stay tuned for stable release announcement.**
 
 Civic [Secure Identity Platform (SIP)](https://www.civic.com/secure-identity-platform) API client implemented in PHP.
 
@@ -130,6 +129,22 @@ UserData {
     }
   ]
 }
+```
+
+You can iterate through the data items as following:
+
+```php
+foreach ($userData->items() as $dataItem) {
+    echo $dataItem->label() . ' = ' . $dataItem->value() . PHP_EOL;
+}
+``` 
+
+You can also access individual data items by their labels. Note that `userId` is a property of `UsedData` object and not included in data items array.
+
+```php
+$userId = $userData->userId();
+$email = $userData->getByLabel('contact.personal.email')->value();
+$phone = $userData->getByLabel('contact.personal.phoneNumber')->value();
 ```
 
 ## Civic integration

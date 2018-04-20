@@ -1,7 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Serializer\Point;
-
 
 use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Serializer\Point\UncompressedPointSerializer;
@@ -16,7 +16,7 @@ class UncompressedPointSerializerTest extends AbstractTestCase
     public function testChecksPrefix()
     {
         $data = '01aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
-        $serializer = new UncompressedPointSerializer(EccFactory::getAdapter());
+        $serializer = new UncompressedPointSerializer();
         $serializer->unserialize(EccFactory::getNistCurves()->curve192(), $data);
     }
 }
