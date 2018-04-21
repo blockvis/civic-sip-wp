@@ -158,7 +158,7 @@ class Civic_Sip {
 	private function check_requirements() {
 
 		// Check against minimum PHP and WordPress version
-		if ( version_compare( PHP_VERSION, '5.6', '<' )
+		if ( version_compare( PHP_VERSION, '7.0', '<' )
 			 || version_compare(  get_bloginfo( 'version' ), '4.0', '<' ) ) {
 			$plugin_admin = new Civic_Sip_Admin( $this->get_plugin_name(), $this->get_version() );
 			$this->loader->add_action( 'admin_init', $plugin_admin, 'deactivate' );

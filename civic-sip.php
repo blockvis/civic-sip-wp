@@ -30,7 +30,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'CIVIC_SIP_PLUGIN_VERSION', '1.1.3' );
+define( 'CIVIC_SIP_PLUGIN_VERSION', '2.0.0' );
 
 /**
  * The code that runs during plugin activation.

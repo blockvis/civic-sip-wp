@@ -354,7 +354,7 @@ class Civic_Sip_Admin {
 					' Please upgrade to activate the plugin.'
 				),
 				'4.0',
-				'5.6',
+				'7.0',
 				get_bloginfo( 'version' ),
 				PHP_VERSION
 			)

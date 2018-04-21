@@ -2,7 +2,7 @@
 **Contributors:** blockvis  
 **Donate link:** https://blockvis.com  
 **Tags:** civic, civic sip, authorization, auth, log in, login, blockchain  
-Requires PHP: 5.6
+**Requires PHP:** 7.0  
 **Requires at least:** 4.0  
 **Tested up to:** 4.8.2  
 **Stable tag:** trunk  
@@ -16,7 +16,8 @@ Civic Secure Identity Platform (SIP) authorization plugin. Sign in to your blog 
 
 Allow users to securely login and register for your site using the <a href="https://www.civic.com/secure-identity-platform">Civic Secure Identity Platform</a>. To get started, you will need to register with the <a href="https://www.civic.com/app">Civic app</a> and then use the app to log into the <a href="https://sip-partners.civic.com/">developer portal</a> to obtain your App ID and API keys.
 
-Note: This plugin requires that the <a href="http://php.net/manual/en/book.gmp.php">php-gmp extension</a> is installed on your WordPress server. PHP version 5.6 or 7.x is required.
+Note: This plugin requires that the <a href="http://php.net/manual/en/book.gmp.php">php-gmp extension</a> is 
+installed on your WordPress server. PHP version 7.x is required. For PHP 5.6 compatibility, use plugin version 1.x. 
 
 The latest source code and development progress is available on <a href="https://github.com/blockvis/civic-sip-wp">GitHub</a>.
 
@@ -55,6 +56,9 @@ If you see some important functionality is missing, feel free to open an issue o
 
 ## Changelog 
 
+### 2.0.0 
+* PHP 7.2 compatible
+* Minimum PHP version is 7.0.
 
 ### 1.1.3 
 * Auth cookies are cleared before login.
