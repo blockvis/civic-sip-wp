@@ -12,7 +12,7 @@ namespace FG\ASN1;
 
 use Exception;
 
-abstract class AbstractString extends Object implements Parsable
+abstract class AbstractString extends ASNObject implements Parsable
 {
     /** @var string */
     protected $value;
@@ -39,9 +39,8 @@ abstract class AbstractString extends Object implements Parsable
         $this->allowedCharacters[] = $character;
     }
 
-    protected function allowCharacters($character1, $character2 = null, $characterN = null)
+    protected function allowCharacters(...$characters)
     {
-        $characters = func_get_args();
         foreach ($characters as $character) {
             $this->allowedCharacters[] = $character;
         }

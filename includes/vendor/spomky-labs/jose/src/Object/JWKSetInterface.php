@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2017 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,14 +14,18 @@ namespace Jose\Object;
 interface JWKSetInterface extends \Countable, \Iterator, \JsonSerializable, \ArrayAccess
 {
     /**
-     * @param $index
+     * Get key from set at index.
+     *
+     * @param int $index
      *
      * @return \Jose\Object\JWKInterface
      */
     public function getKey($index);
 
     /**
-     * @param $index
+     * Check if set has key at index.
+     *
+     * @param int $index
      *
      * @return bool
      */
@@ -37,9 +41,16 @@ interface JWKSetInterface extends \Countable, \Iterator, \JsonSerializable, \Arr
     /**
      * Add key in the key set.
      *
-     * @param \Jose\Object\JWKInterface A key to store in the key set
+     * @param \Jose\Object\JWKInterface $key A key to store in the key set
      */
     public function addKey(JWKInterface $key);
+
+    /**
+     * Prepend key to the set.
+     *
+     * @param \Jose\Object\JWKInterface $key A key to store in the key set
+     */
+    public function prependKey(JWKInterface $key);
 
     /**
      * Remove key from the key set.

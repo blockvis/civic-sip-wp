@@ -2,8 +2,8 @@ PHPASN1
 =======
 
 [![Build Status](https://secure.travis-ci.org/fgrosse/PHPASN1.png?branch=master)](http://travis-ci.org/fgrosse/PHPASN1)
-[![HHVM Status](http://hhvm.h4cc.de/badge/fgrosse/phpasn1.png)](http://hhvm.h4cc.de/package/fgrosse/phpasn1)
 [![PHP 7 ready](http://php7ready.timesplinter.ch/fgrosse/PHPASN1/badge.svg)](https://travis-ci.org/fgrosse/PHPASN1)
+[![Coverage Status](https://coveralls.io/repos/fgrosse/PHPASN1/badge.svg?branch=master&service=github)](https://coveralls.io/github/fgrosse/PHPASN1?branch=master)
 
 [![Latest Stable Version](https://poser.pugx.org/fgrosse/phpasn1/v/stable.png)](https://packagist.org/packages/fgrosse/phpasn1)
 [![Total Downloads](https://poser.pugx.org/fgrosse/phpasn1/downloads.png)](https://packagist.org/packages/fgrosse/phpasn1)
@@ -18,27 +18,14 @@ The API allows you to encode ASN.1 structures to create binary data such as cert
 signing requests (CSR), X.509 certificates or certificate revocation lists (CRL).
 PHPASN1 can also read [BER encoded][6] binary data into separate PHP objects that can be manipulated by the user and reencoded afterwards.
 
-## About this branch
-
-**This branch is basically deprecated and only here for everybody who can not update to PHP5.6 yet and still needs to use PHP5.5.**
-
-I highly recommend moving to PHP 5.6 on the main branch since new PHPASN1 features are not guaranteed to be merged into this branch. 
-
-## Changelog
-
-#### v.1.4.0
-* **require PHP 5.6**
-* support big integers (closes #1 and #37)
-* enforce one code style via [styleci.io][9]
-* track code coverage via [coveralls.io][10]
-* replace obsolete `FG\ASN1\Exception\GeneralException` with `\Exception`
-* `Construct` (`Sequence`, `Set`) does now implement `ArrayAccess`, `Countable` and `Iterator` so its easier to use
-* add [`TemplateParser`][11]
+The **changelog** can now be found at [CHANGELOG.md](CHANGELOG.md).
 
 ## Dependencies
 
-PHPASN1 requires at least `PHP 5.6` and the `gmp` extension.
-It has also been successfully tested using `PHP 7` and `HHVM`
+PHPASN1 requires at least `PHP 7.0` and either the `gmp` or `bcmath` extension.
+Support for older PHP versions (i.e. PHP 5.6) was dropped starting with `v2.0`.
+If you must use an outdated PHP version consider using [PHPASN v1.5][13].
+
 For the loading of object identifier names directly from the web [curl][7] is used.
 
 ## Installation
@@ -58,6 +45,7 @@ The constructors should be pretty self explanatory so you should have no big tro
 All data will be encoded using [DER encoding][8]
 
 ```php
+use FG\ASN1\OID;
 use FG\ASN1\Universal\Integer;
 use FG\ASN1\Universal\Boolean;
 use FG\ASN1\Universal\Enumerated;
@@ -93,11 +81,13 @@ echo base64_encode($myBinary);
 Decoding BER encoded binary data is just as easy as encoding it:
 
 ```php
-use FG\ASN1\Object;
+use FG\ASN1\ASNObject;
 
 $base64String = ...
 $binaryData = base64_decode($base64String);        
-$asnObject = Object::fromBinary($binaryData);
+$asnObject = ASNObject::fromBinary($binaryData);
+
+
 // do stuff
 ```
 
@@ -150,6 +140,10 @@ If you found an issue or have a question submit a github issue with detailed inf
 In case you already know what caused the issue and feel in the mood to fix it, your code contributions are always welcome. Just fork the repository, implement your changes and make sure that you covered everything with tests.
 Afterwards submit a pull request via github and be a little patient :) I usually try to comment and/or merge as soon as possible.
 
+#### Mailing list
+
+New features or questions can be discussed in [this google group/mailing list][12].
+
 ### Thanks
 
 To [all contributors][1] so far!
@@ -169,3 +163,5 @@ This library is distributed under the [MIT License](LICENSE).
 [9]: https://styleci.io
 [10]: https://coveralls.io/github/fgrosse/PHPASN1
 [11]: https://github.com/fgrosse/PHPASN1/blob/master/tests/ASN1/TemplateParserTest.php#L16
+[12]: https://groups.google.com/d/forum/phpasn1
+[13]: https://packagist.org/packages/fgrosse/phpasn1#1.5.2

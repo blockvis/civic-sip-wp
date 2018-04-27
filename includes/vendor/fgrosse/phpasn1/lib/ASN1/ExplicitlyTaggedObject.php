@@ -29,22 +29,18 @@ use FG\ASN1\Exception\ParserException;
  *
  * @see http://luca.ntop.org/Teaching/Appunti/asn1.html
  */
-class ExplicitlyTaggedObject extends Object
+class ExplicitlyTaggedObject extends ASNObject
 {
-    /** @var \FG\ASN1\Object[] */
+    /** @var \FG\ASN1\ASNObject[] */
     private $decoratedObjects;
     private $tag;
 
     /**
      * @param int $tag
-     * @param \FG\ASN1\Object[] $objects
+     * @param \FG\ASN1\ASNObject $objects,...
      */
-    public function __construct($tag, $objects)
+    public function __construct($tag, /* HH_FIXME[4858]: variadic + strict */ ...$objects)
     {
-        if (!is_array($objects)) {
-            $objects = array($objects);
-        }
-
         $this->tag = $tag;
         $this->decoratedObjects = $objects;
     }
@@ -119,7 +115,7 @@ class ExplicitlyTaggedObject extends Object
         $decoratedObjects = [];
 
         while ($remainingContentLength > 0) {
-            $nextObject = Object::fromBinary($binaryData, $offsetIndex);
+            $nextObject = ASNObject::fromBinary($binaryData, $offsetIndex);
             $remainingContentLength -= $nextObject->getObjectLength();
             $decoratedObjects[] = $nextObject;
         }
@@ -128,7 +124,7 @@ class ExplicitlyTaggedObject extends Object
             throw new ParserException("Context-Specific explicitly tagged object [$tag] starting at offset $offsetIndexOfDecoratedObject specifies a length of $totalContentLength octets but $remainingContentLength remain after parsing the content", $offsetIndexOfDecoratedObject);
         }
 
-        $parsedObject = new self($tag, $decoratedObjects);
+        $parsedObject = new self($tag, ...$decoratedObjects);
         $parsedObject->setContentLength($totalContentLength);
         return $parsedObject;
     }

@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2017 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -25,11 +25,11 @@ final class X5UJWKSet extends DownloadedJWKSet
     public function getKeys()
     {
         $content = json_decode($this->getContent(), true);
-        Assertion::isArray($content, 'Invalid content.');
+        Assertion::isArray($content, 'Invalid JWK content.');
         $jwkset = new JWKSet();
         foreach ($content as $kid => $cert) {
             $jwk = KeyConverter::loadKeyFromCertificate($cert);
-            Assertion::notEmpty($jwk, 'Invalid content.');
+            Assertion::notEmpty($jwk, 'Invalid JWKSet content.');
             if (is_string($kid)) {
                 $jwk['kid'] = $kid;
             }

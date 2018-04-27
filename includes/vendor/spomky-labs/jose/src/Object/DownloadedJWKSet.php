@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2017 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -17,9 +17,8 @@ use Psr\Cache\CacheItemPoolInterface;
 /**
  * Class DownloadedJWKSet.
  */
-abstract class DownloadedJWKSet implements JWKSetInterface
+abstract class DownloadedJWKSet extends BaseJWKSet implements JWKSetInterface
 {
-    use BaseJWKSet;
     use JWKSetPEM;
 
     /**
@@ -81,6 +80,14 @@ abstract class DownloadedJWKSet implements JWKSetInterface
     /**
      * {@inheritdoc}
      */
+    public function prependKey(JWKInterface $key)
+    {
+        //Not available
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function removeKey($index)
     {
         //Not available
@@ -112,7 +119,10 @@ abstract class DownloadedJWKSet implements JWKSetInterface
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException Has CURL error message and the CURL error
+     *                                   number as exception code.
+     *                                   Throws exception with error number 0
+     *                                   if the error is not related to CURL.
      *
      * @return string
      */
@@ -130,9 +140,25 @@ abstract class DownloadedJWKSet implements JWKSetInterface
         $ch = curl_init();
         curl_setopt_array($ch, $params);
         $content = curl_exec($ch);
-        curl_close($ch);
 
-        Assertion::false(false === $content, 'Unable to get content.');
+        try {
+            Assertion::false(false === $content, 'Failed to load JWK contents: ');
+        } catch (\Assert\AssertionFailedException $e) {
+            $curlError = curl_error($ch);
+            $curlErrorNumber = curl_errno($ch);
+
+            throw new \InvalidArgumentException(
+                $e->getMessage().$curlError,
+                $curlErrorNumber
+            );
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException(
+                'Failed to load JWK contents: '.$e->getMessage(),
+                0
+            );
+        } finally {
+            curl_close($ch);
+        }
 
         return $content;
     }

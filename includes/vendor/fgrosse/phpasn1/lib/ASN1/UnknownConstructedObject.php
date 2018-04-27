@@ -23,20 +23,18 @@ class UnknownConstructedObject extends Construct
      */
     public function __construct($binaryData, &$offsetIndex)
     {
-        parent::__construct();
         $this->identifier = self::parseBinaryIdentifier($binaryData, $offsetIndex);
         $this->contentLength = self::parseContentLength($binaryData, $offsetIndex);
-
 
         $children = [];
         $octetsToRead = $this->contentLength;
         while ($octetsToRead > 0) {
-            $newChild = Object::fromBinary($binaryData, $offsetIndex);
+            $newChild = ASNObject::fromBinary($binaryData, $offsetIndex);
             $octetsToRead -= $newChild->getObjectLength();
             $children[] = $newChild;
         }
 
-        $this->addChildren($children);
+        parent::__construct(...$children);
     }
 
     public function getType()

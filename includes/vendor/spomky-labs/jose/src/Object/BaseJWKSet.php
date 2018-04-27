@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2017 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -16,7 +16,7 @@ use Assert\Assertion;
 /**
  * Class BaseJWKSet.
  */
-trait BaseJWKSet
+abstract class BaseJWKSet
 {
     /**
      * @var int
@@ -172,7 +172,8 @@ trait BaseJWKSet
         Assertion::nullOrString($algorithm);
 
         $result = [];
-        foreach ($this->getKeys() as $key) {
+        $keys = $this->getKeys();
+        foreach ($keys as $key) {
             $ind = 0;
 
             // Check usage

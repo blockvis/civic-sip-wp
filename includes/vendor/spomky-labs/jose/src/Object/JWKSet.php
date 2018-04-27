@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2017 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,9 +14,8 @@ namespace Jose\Object;
 /**
  * Class JWKSet.
  */
-final class JWKSet implements JWKSetInterface
+final class JWKSet extends BaseJWKSet implements JWKSetInterface
 {
-    use BaseJWKSet;
     use JWKSetPEM;
 
     /**
@@ -52,9 +51,17 @@ final class JWKSet implements JWKSetInterface
     /**
      * {@inheritdoc}
      */
+    public function prependKey(JWKInterface $key)
+    {
+        array_unshift($this->keys, $key);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function removeKey($key)
     {
-        if (isset($this->keys[$key])) {
+        if (array_key_exists($key, $this->keys)) {
             unset($this->keys[$key]);
         }
     }

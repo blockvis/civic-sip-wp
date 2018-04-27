@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2017 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,7 +13,7 @@ namespace Jose\Algorithm\Signature;
 
 use Assert\Assertion;
 use Base64Url\Base64Url;
-use FG\ASN1\Object;
+use FG\ASN1\ASNObject;
 use FG\ASN1\Universal\Integer;
 use FG\ASN1\Universal\Sequence;
 use Jose\Algorithm\SignatureAlgorithmInterface;
@@ -56,7 +56,7 @@ abstract class ECDSA implements SignatureAlgorithmInterface
 
         Assertion::true($result, 'Signature failed');
 
-        $asn = Object::fromBinary($signature);
+        $asn = ASNObject::fromBinary($signature);
         Assertion::isInstanceOf($asn, Sequence::class, 'Invalid signature');
 
         $res = '';

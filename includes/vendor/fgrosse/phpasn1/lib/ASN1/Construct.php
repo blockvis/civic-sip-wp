@@ -15,15 +15,18 @@ use ArrayIterator;
 use Countable;
 use Iterator;
 
-abstract class Construct extends Object implements Countable, ArrayAccess, Iterator, Parsable
+abstract class Construct extends ASNObject implements Countable, ArrayAccess, Iterator, Parsable
 {
-    /** @var Object[] */
+    /** @var \FG\ASN1\ASNObject[] */
     protected $children;
     private $iteratorPosition;
 
-    public function __construct(Object $child1 = null, Object $child2 = null, Object $childN = null)
+    /**
+     * @param \FG\ASN1\ASNObject[] $children the variadic type hint is commented due to https://github.com/facebook/hhvm/issues/4858
+     */
+    public function __construct(/* HH_FIXME[4858]: variadic + strict */ ...$children)
     {
-        $this->children = func_get_args();
+        $this->children = $children;
         $this->iteratorPosition = 0;
     }
 
@@ -101,7 +104,7 @@ abstract class Construct extends Object implements Countable, ArrayAccess, Itera
         return $result;
     }
 
-    public function addChild(Object $child)
+    public function addChild(ASNObject $child)
     {
         $this->children[] = $child;
     }
@@ -127,7 +130,7 @@ abstract class Construct extends Object implements Countable, ArrayAccess, Itera
     }
 
     /**
-     * @return Object[]
+     * @return \FG\ASN1\ASNObject[]
      */
     public function getChildren()
     {
@@ -135,7 +138,7 @@ abstract class Construct extends Object implements Countable, ArrayAccess, Itera
     }
 
     /**
-     * @return Object
+     * @return \FG\ASN1\ASNObject
      */
     public function getFirstChild()
     {
@@ -159,7 +162,7 @@ abstract class Construct extends Object implements Countable, ArrayAccess, Itera
         $children = [];
         $octetsToRead = $contentLength;
         while ($octetsToRead > 0) {
-            $newChild = Object::fromBinary($binaryData, $offsetIndex);
+            $newChild = ASNObject::fromBinary($binaryData, $offsetIndex);
             $octetsToRead -= $newChild->getObjectLength();
             $children[] = $newChild;
         }
