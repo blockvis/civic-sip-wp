@@ -44,6 +44,12 @@ If you see some important functionality is missing, feel free to open an issue o
 
 == Changelog ==
 
+= 2.0.2 =
+* Vendor folder size reduced
+
+= 2.0.1 =
+* Update dependencies for PHP 7.2 compatibility
+
 = 2.0.0 =
 * PHP 7.2 compatible
 * Minimum PHP version is 7.0.
