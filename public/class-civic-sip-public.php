@@ -298,6 +298,9 @@ class Civic_Sip_Public {
 	 */
 	public static function wp_login( WP_User $user, $remember = false, $secure = '', $token = '' ) {
 
+		// Two Factor plugin compatibility - see https://github.com/georgestephanis/two-factor/issues/199#issuecomment-349553590
+		remove_action( 'wp_login', array( 'Two_Factor_Core', 'wp_login' ), 10, 2 );
+
 		wp_clear_auth_cookie();
 		wp_set_current_user( $user->ID, $user->user_login );
 		wp_set_auth_cookie( $user->ID, $remember, $secure, $token );
